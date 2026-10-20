@@ -39,7 +39,6 @@ Las impone el curso y no el negocio.
 | R-8 | El reto trata dos atributos: facilidad de integración y facilidad de modificación, que esta wiki llama interoperabilidad y modificabilidad | Título del enunciado |
 | R-9 | Se prioriza al menos un escenario de interoperabilidad y uno de modificabilidad, y los dos se validan con juicio de expertos | Clase del 13 de octubre |
 | R-10 | Las decisiones de arquitectura se implementan para validar que cumplen los requerimientos de calidad | Objetivo del enunciado |
-| R-11 | El equipo, el calendario y la fecha de entrega. `[PREGUNTA → equipo del curso]` Fecha de entrega | Curso |
 
 ## Supuestos
 

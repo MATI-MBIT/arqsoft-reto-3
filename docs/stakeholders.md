@@ -76,4 +76,3 @@ modificar.
 | Clientes de las empresas (afiliados, pacientes, asegurados) | Sus datos pasan por el sistema, pero no lo usan. Son el objeto de la venta cruzada, no su actor |
 | Proveedores del dominio de datos | Son registros del dominio «proveedores», no actores |
 | Directivos de cada empresa | El enunciado habla de los directivos de XYZ. Los de cada empresa leen sus propios sistemas |
-| Reguladores de salud | El enunciado no los menciona. `[PREGUNTA]` Si el curso los espera, entran por la vía de las restricciones |
