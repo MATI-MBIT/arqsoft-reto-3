@@ -58,7 +58,7 @@ según el propio enunciado del reto.
 | Cuánto tarda un dato en llegar a la vista unificada desde el sistema de la empresa | El enunciado pide los ingresos y egresos «tan rápido como sea posible». Eso es desempeño, y el reto 3 trata integración y modificación |
 | Reemplazar o integrar un sistema sin interrumpir la operación | Es disponibilidad. Lo que sí está dentro es que el reemplazo no rompa la integración |
 | Los sistemas de las empresas por dentro | La holding los integra como están, sin rediseñarlos ni reemplazarlos |
-| La protección de los datos de salud de los clientes | El enunciado no la menciona. `[PREGUNTA]` Si el curso la espera, entra como restricción y no como atributo de este reto |
+| La protección de los datos de salud de los clientes | Queda fuera del alcance porque no hace parte de los atributos de calidad evaluados |
 
 ## Propósito del diseño
 
