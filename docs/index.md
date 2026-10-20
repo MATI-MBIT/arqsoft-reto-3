@@ -38,10 +38,12 @@ camino.
 | ASR | Qué fija |
 |---|---|
 | ASR-I01 | Integrar una compañía de turismo adquirida no modifica ningún componente existente, suma 1 contrato de integración, cuesta ≤ 500 h-h e interpreta ≥ 95 % de su lote |
-| ASR-M01 | Cambiar el algoritmo que interpreta los ingresos de una empresa toca 1 componente, 0 LOC de legado fuera de él, cuesta ≤ 24 h-h y se revierte sin desarrollo |
+| ASR-I02 | Integrar los ingresos, egresos y clientes de una empresa del grupo interpreta ≥ 99 % de su lote, registra 0 con otro significado y cuesta ≤ 80 h-h por empresa |
+| ASR-M01 | Cambiar el algoritmo que interpreta los ingresos de una empresa toca 1 componente y 0 LOC de legado fuera de él, cuesta ≤ 24 h-h y se revierte sin desarrollo |
+| ASR-M02 | Absorber el cambio de una empresa en su propio sistema toca 1 componente y 0 LOC fuera de él, y cuesta ≤ 16 h-h |
 
-El detalle, los supuestos detrás de cada cifra y el protocolo de juicio de
-expertos están en [escenarios de calidad](quality-attributes.md).
+ASR-I01 y ASR-M01 se validan con juicio de expertos, y ASR-I02 y ASR-M02 con un
+experimento. El detalle, los supuestos detrás de cada cifra y el protocolo están en [escenarios de calidad](quality-attributes.md).
 
 ## Lo que dijeron los experimentos
 

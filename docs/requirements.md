@@ -6,10 +6,9 @@ helix_section: "Requirements & Quality"
 
 # Historias de usuario
 
-Esta página trae el árbol de épicas, features e historias del sistema de
-integración y análisis de la holding XYZ. Helix pide una jerarquía de tres
-niveles, épica → feature → historia, y aquí ya está armada para que la réplica
-no tenga que inventarla.
+Esta página trae el árbol de épicas, features e historias del sistema que
+integra y analiza los datos de la holding XYZ. Helix pide esa jerarquía de tres
+niveles, y aquí ya está armada para que la réplica no tenga que inventarla.
 
 El actor de cada historia tiene que estar en [stakeholders](stakeholders.md),
 porque en Helix el campo `As a` es un desplegable. El vocabulario está fijado en
@@ -49,7 +48,7 @@ en la holding.
 
 - **HU-01** — Como dirección de tecnología, quiero que los datos de los siete
   dominios de cada empresa del grupo lleguen a la holding sin procesamiento
-  manual, para dejar de pagar el costo y la espera de procesar archivos a mano.
+  manual, para bajar el costo de integración y la espera antes de cada análisis.
 - **HU-02** — Como empresa del grupo, quiero entregar mis datos desde los
   sistemas que ya tengo, para no rediseñarlos por cuenta de la holding.
 
@@ -58,10 +57,9 @@ en la holding.
 Una compañía de turismo o de salud que la holding compra se integra aunque su
 sistema esté en producción y sea de otro proveedor.
 
-- **HU-03** — Como dirección de XYZ, quiero integrar el sistema de una compañía
-  de turismo adquirida a la vista unificada sin alterar lo que ya funciona para
-  las empresas del grupo, para leer sus clientes, ventas, ingresos, egresos y
-  productos junto con los del resto de la holding.
+- **HU-03** — Como dirección de XYZ, quiero integrar a la vista unificada una
+  compañía de turismo adquirida sin alterar lo que ya funciona, para leer sus
+  datos junto con los del resto de la holding.
 - **HU-04** — Como dirección de estrategia, quiero integrar una compañía de
   salud adquirida, para que la adquisición aporte a la visión integral desde el
   principio.
@@ -87,9 +85,9 @@ entrega, y lo que pasa cuando un dato no se deja interpretar.
 La holding cambia con frecuencia la forma de interpretar los datos de cada
 empresa.
 
-- **HU-07** — Como dirección de analítica, quiero cambiar el algoritmo con que se
-  interpretan los ingresos de una empresa del grupo, y volver al anterior si no
-  sirve, para ajustar la interpretación sin alterar la de las demás empresas.
+- **HU-07** — Como dirección de analítica, quiero cambiar el algoritmo que
+  interpreta los ingresos de una empresa, y volver al anterior si no sirve, para
+  ajustarlo sin alterar a las demás empresas.
 - **HU-08** — Como dirección de analítica, quiero corregir una regla de
   interpretación que se aplicó mal y recalcular su histórico, para que las
   cifras pasadas y las nuevas se lean con el mismo significado.
@@ -133,10 +131,9 @@ enunciado.
 
 ### HU-03 — Integrar una compañía de turismo adquirida
 
-**Como** dirección de XYZ, **quiero** integrar el sistema de una compañía de
-turismo adquirida a la vista unificada sin alterar lo que ya funciona para las
-empresas del grupo, **para** leer sus clientes, ventas, ingresos, egresos y
-productos junto con los del resto de la holding.
+**Como** dirección de XYZ, **quiero** integrar a la vista unificada una
+compañía de turismo adquirida sin alterar lo que ya funciona, **para** leer sus
+datos junto con los del resto de la holding.
 
 | # | Criterio |
 |---|---|
@@ -149,9 +146,9 @@ productos junto con los del resto de la holding.
 
 ### HU-07 — Cambiar el algoritmo de ingresos de una empresa
 
-**Como** dirección de analítica, **quiero** cambiar el algoritmo con que se
-interpretan los ingresos de una empresa del grupo, y volver al anterior si no
-sirve, **para** ajustar la interpretación sin alterar la de las demás empresas.
+**Como** dirección de analítica, **quiero** cambiar el algoritmo que interpreta
+los ingresos de una empresa, y volver al anterior si no sirve, **para**
+ajustarlo sin alterar a las demás empresas.
 
 Caso de referencia: hoy los ingresos de una IPS se toman como lo facturado, y la
 holding decide tomarlos como lo facturado menos lo glosado.
@@ -164,23 +161,53 @@ holding decide tomarlos como lo facturado menos lo glosado.
 | 4 | El cambio no toca código del sistema fuera de la parte que interpreta esa empresa |
 | 5 | Volver al algoritmo anterior no requiere desarrollo ni un despliegue nuevo |
 
+### HU-05 — Cambio en el sistema de una empresa
+
+**Como** dirección de tecnología, **quiero** que un cambio en el sistema de una
+empresa solo afecte la interpretación de esa empresa, **para** no rehacer la de
+las demás.
+
+Caso de referencia: una IPS cambia de versión su sistema de facturación, con
+códigos de estado nuevos y una interfaz distinta.
+
+| # | Criterio |
+|---|---|
+| 1 | Los datos de la empresa vuelven a entrar a la vista unificada con el significado correcto |
+| 2 | Solo se ajusta lo que lee los datos de esa empresa |
+| 3 | La lectura de las otras siete empresas, la consolidación y los informes no cambian |
+| 4 | El significado común de los siete dominios no cambia |
+
+### HU-10 — Ingresos y egresos unificados
+
+**Como** dirección financiera, **quiero** los ingresos y egresos de todas las
+empresas unificados, **para** consolidar las cifras de la holding sin procesos
+manuales.
+
+| # | Criterio |
+|---|---|
+| 1 | Cada monto queda en la unidad y la moneda que le dio su empresa |
+| 2 | El tipo de documento, el código de estado y la fecha conservan su significado |
+| 3 | Lo que no se puede interpretar queda rechazado con su razón |
+| 4 | Ningún registro entra a la consolidación con un significado distinto del que le dio su empresa |
+| 5 | La interpretación se compara contra un lote de referencia que firma la dirección financiera |
+
 ## De dónde sale cada historia
 
-| Historia | Origen en el enunciado |
+| Historia | Lo que dice el enunciado |
 |---|---|
-| HU-01 | [Ctx]: archivos CSV procesados manualmente, con altos costos y largas esperas |
-| HU-02 | [Ctx] y [Reto-1]: integrar los sistemas empresariales existentes |
-| HU-03 | [Reto-1]: adquirir compañías de turismo con sistemas en producción de otros proveedores |
-| HU-04 | [Reto-1]: adquirir compañías de salud |
-| HU-05 | [Reto-2]: los cambios de las empresas impactan los datos y la lógica de la holding |
-| HU-06 | [Reto-1]: reemplazar componentes tecnológicos en producción en cualquier momento |
-| HU-07 | [Reto-2]: cambios frecuentes en los algoritmos que interpretan los datos |
-| HU-08 | [Ctx]: los cambios en los sistemas de análisis cuestan más de lo esperado |
-| HU-09 | [Reto-1]: ingresos y egresos unificados; exige cifras comparables |
-| HU-10 | [Reto-1]: ingresos y egresos unificados |
-| HU-11 | [Reto-1]: proveedores y contratos unificados |
-| HU-12 | [Ctx] y [Reto-1]: venta cruzada |
-| HU-13 | [Reto-2]: cambios frecuentes en la presentación de los informes para directivos |
+| HU-01 | Las empresas envían archivos CSV que la holding procesa a mano, con costos altos y esperas largas |
+| HU-02 | Hay que integrar los sistemas empresariales que ya existen |
+| HU-03 | La holding espera comprar compañías de turismo, con sistemas en producción de otros proveedores |
+| HU-04 | La holding espera comprar compañías de salud |
+| HU-05 | Los cambios de las empresas en sus sistemas golpean los datos y la lógica de la holding |
+| HU-06 | Los componentes tecnológicos en producción se deben poder reemplazar en cualquier momento |
+| HU-07 | La holding cambiará con frecuencia los algoritmos que interpretan los datos |
+| HU-08 | Los cambios en los sistemas de análisis cuestan más de lo esperado |
+| HU-09 | Los ingresos y egresos se unifican, y eso exige cifras comparables |
+| HU-10 | Los ingresos y egresos se unifican |
+| HU-11 | La información de proveedores y contratos se unifica |
+| HU-12 | La holding busca aumentar sus ingresos con venta cruzada |
+| HU-13 | La presentación de los informes para directivos cambiará con frecuencia |
 
 ## Preguntas abiertas
 

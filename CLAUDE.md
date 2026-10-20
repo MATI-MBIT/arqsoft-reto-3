@@ -17,8 +17,8 @@ ASR. Lo que sigue es el paso 3, las decisiones en `docs/modelos/adrs.md`.
 |---|---|
 | Enunciado | `ARTI4109-reto3-v2.pdf`, citado por párrafo como `[Ctx]`, `[Reto-1]` y `[Reto-2]` |
 | Insumos del paso 1 | `architecture.md`, `stakeholders.md`, `constraints.md` (R-1 a R-11, S-1 a S-5), `requirements.md` (E-1 a E-3, HU-01 a HU-13) y `glossary.md` |
-| ASR del paso 2 | `quality-attributes.md`: ASR-I01 (cuelga de HU-03) y ASR-M01 (cuelga de HU-07), con supuestos S-6 a S-11 |
-| Origen de los ASR | La v1 de Carlos Chaparro (`ASRs_reto3.md`) y la v2 que la reescribe (`reto3-asrs-v2-i01-m01.md`). La wiki publica la v2; las H-0n de la v2 son ahora S-n, con la equivalencia en la tabla de supuestos |
+| ASR del paso 2 | `quality-attributes.md`: ASR-I01 (HU-03), ASR-I02 (HU-10), ASR-M01 (HU-07) y ASR-M02 (HU-05), con supuestos S-6 a S-15. I01 y M01 van al juicio de expertos; I02 y M02 se verifican con experimento |
+| Origen de los ASR | El documento de Carlos Chaparro (`ASRs_reto3.md`), refinado con la skill `arquitectura:definir-asrs-software`. **La wiki no menciona autoría, versiones ni historia de edición**: Nicolás lo pidió así porque al lector no le importa. Su documento también trae una arquitectura (modelo canónico, conectores, bus, reglas como plug-ins) y dos ADR, que son insumo para el paso 3 |
 | `notas/verificar-gates.sh` | La compuerta 1 reconoce `ASR-I01` y `ASR-M01`, no solo `ASR-n` |
 | Wiki, workflow y notas de Helix | Heredados del reto 2, sin cambios |
 

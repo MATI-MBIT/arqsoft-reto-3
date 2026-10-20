@@ -6,15 +6,13 @@ helix_section: "Stakeholders"
 
 # Stakeholders
 
-Esta página lista quiénes participan en el sistema de integración y análisis
-de la holding XYZ. Va antes que las historias de usuario por una razón
-práctica: en Helix el campo `As a` de cada historia es un desplegable de
-stakeholders, no texto libre. Quien no esté en esta lista no puede ser actor de
-una historia.
+Esta página lista quiénes participan en el sistema que integra y analiza los
+datos de la holding XYZ. Va antes que las historias de usuario porque en Helix
+el campo `As a` de cada historia es un desplegable de stakeholders: quien no
+esté aquí no puede ser actor de una historia.
 
-Helix guarda tres campos por stakeholder: nombre, rol y descripción. La tabla de
-abajo tiene esas tres columnas para que la réplica sea directa. El vocabulario
-está fijado en el [glosario](glossary.md).
+Helix guarda tres campos por stakeholder, que son las tres columnas de la tabla.
+El vocabulario está fijado en el [glosario](glossary.md).
 
 ## Quiénes participan en el sistema
 
@@ -32,54 +30,50 @@ está fijado en el [glosario](glossary.md).
 
 ## Por qué cada uno está en la lista
 
-**Dirección de XYZ.** Es quien pide la visión integral de los negocios y quien
-decide comprar más compañías [Ctx] [Reto-1]. Espera que cada adquisición se
-pueda leer junto con lo que ya tiene. Si el sistema falla, decide sobre datos
-incompletos o tardíos.
+**Dirección de XYZ.** Pide la visión integral de los negocios y decide comprar
+más compañías. Necesita leer cada adquisición junto con lo que ya tiene; sin
+eso, decide sobre datos incompletos o tardíos.
 
-**Dirección de estrategia.** Conoce el sistema de una compañía antes de
-comprarla, durante la debida diligencia. Espera saber cuánto costará
-integrarla. Si cada integración cuesta más que la anterior, la adquisición
-pierde valor.
+**Dirección de estrategia.** Conoce el sistema de una compañía durante la debida
+diligencia, antes de comprarla, y quiere saber desde ahí cuánto costará
+integrarla. Una integración más cara que la anterior le resta valor a la
+compra.
 
-**Dirección de tecnología.** Responde por lo que se construye y por lo que se
-rompe. Espera que integrar una compañía nueva o reemplazar un sistema no obligue
-a tocar lo que ya funciona. Si el sistema falla, su equipo vive en regresiones.
+**Dirección de tecnología.** Su equipo construye el sistema y arregla lo que se
+rompe. Integrar una compañía o reemplazar un sistema no debería tocar lo que ya
+funciona, porque cada cambio que se riega termina en regresiones.
 
-**Dirección de analítica.** Cambia con frecuencia los algoritmos que interpretan
-los datos de cada empresa [Reto-2]. Espera que un cambio para una empresa no
-altere las demás, y poder volver atrás si el algoritmo nuevo no sirve. Si el
-sistema falla, cada cambio de algoritmo se vuelve un proyecto de desarrollo.
+**Dirección de analítica.** Según el enunciado, cambiará con frecuencia los
+algoritmos que interpretan los datos de cada empresa. Un cambio para una
+empresa no debe alterar a las demás, y un algoritmo que no sirve se tiene que
+poder retirar.
 
-**Dirección financiera.** Necesita los ingresos y egresos de la holding
-unificados [Reto-1]. Espera que cada cifra signifique lo que la empresa quiso
-decir. Si el sistema falla, consolida cifras con significados distintos sin
-saberlo.
+**Dirección financiera.** Consolida los ingresos y egresos de toda la holding,
+así que cada cifra tiene que significar lo que la empresa quiso decir. El riesgo
+es sumar cifras con significados distintos sin enterarse.
 
 **Dirección comercial.** La venta cruzada es la razón de negocio de la visión
-integral [Ctx]. Espera ver qué productos tiene cada cliente en todas las
-empresas. Si el sistema falla, ofrece productos que el cliente ya tiene o deja
-de ofrecer los que le faltan.
+integral. Con ella, el área ve qué productos tiene cada cliente en todas las
+empresas; sin ella, ofrece lo que el cliente ya tiene.
 
-**Equipo de desarrollo de la holding.** Hace los cambios. Espera que cada cambio
-quede confinado a una parte conocida del sistema. Su capacidad fija qué tan
-caro resulta cada cambio.
+**Equipo de desarrollo de la holding.** Hace los cambios, y su capacidad fija
+cuánto cuesta cada uno. Trabaja mejor cuando cada cambio queda confinado a una
+parte conocida del sistema.
 
 **Empresas del grupo.** Son el otro lado de cada integración. La holding manda
-sobre la empresa, pero no sobre el producto de su proveedor. Esperan entregar
-sus datos sin rediseñar sus sistemas, y cambian esos sistemas por su cuenta
-[Reto-2].
+sobre la empresa, pero no sobre el producto de su proveedor, y la empresa cambia
+ese producto por su cuenta.
 
-**Compañía adquirida.** Es el caso más exigente: llega con un sistema en
+**Compañía adquirida.** Representa el caso más exigente. Llega con un sistema en
 producción, de otro proveedor y de otro sector, que la holding no puede
-modificar [Reto-1].
+modificar.
 
 ## Quiénes quedan fuera de la lista
 
 | Actor | Por qué no es stakeholder del sistema |
 |---|---|
-| Proveedor del sistema de una empresa | Fabrica el ERP o el callcenter, pero no usa el sistema de la holding ni recibe nada de él. Su producto es un hecho dado, no una parte interesada |
+| Proveedor del sistema de una empresa | Fabrica el ERP o el callcenter, pero no usa el sistema de la holding ni recibe nada de él |
 | Clientes de las empresas (afiliados, pacientes, asegurados) | Sus datos pasan por el sistema, pero no lo usan. Son el objeto de la venta cruzada, no su actor |
 | Proveedores del dominio de datos | Son registros del dominio «proveedores», no actores |
-| Directivos de cada empresa | El enunciado habla de los directivos de XYZ [Reto-2]. Los de cada empresa leen sus propios sistemas |
+| Directivos de cada empresa | El enunciado habla de los directivos de XYZ. Los de cada empresa leen sus propios sistemas |
 | Reguladores de salud | El enunciado no los menciona. `[PREGUNTA]` Si el curso los espera, entran por la vía de las restricciones |
