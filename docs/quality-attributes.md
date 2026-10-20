@@ -57,14 +57,7 @@ a decidir si cada socio nuevo se suma por su cuenta o si su llegada toca lo que
 ya funciona. Con N adquisiciones, esa decisión es la diferencia
 entre sumar N contratos y hacer N cambios sobre el sistema en producción.
 
-**Cómo se cuenta el porcentaje.** Sobre un lote de referencia que firma la
-dirección financiera, con los registros de un mes de reservas y facturación de
-la compañía (S-8). Un registro cuenta como interpretado si su moneda, su código
-de cliente y el estado de la reserva coinciden con los del lote.
 
-**Cómo se verifica.** Con juicio de expertos (sección 6) y, como complemento, un
-experimento que integra una compañía simulada y cuenta en el diff los
-componentes nuevos y los modificados, las h-h y el porcentaje interpretado.
 
 ```mermaid
 flowchart LR
@@ -99,16 +92,6 @@ sigue el registro que no lo cumple. El formato lo valida una herramienta; el
 significado solo lo fija un acuerdo con cada empresa, y por eso es lo que más
 tarda en cerrarse.
 
-**Cómo se cuenta el porcentaje.** Sobre un lote de referencia que firma la
-dirección financiera, con los registros de un mes de la empresa (S-12). Un
-registro cuenta como interpretado si el monto queda en su unidad y su moneda, y
-si el tipo de documento, el código de estado y la fecha coinciden con los del
-lote.
-
-**Cómo se verifica.** Con un experimento sobre un lote de referencia que trae
-registros ambiguos a propósito, como montos en centavos. Se cuentan los
-interpretados, los rechazados con su razón y los que entraron con otro
-significado. Este ASR no va en la encuesta de expertos.
 
 ```mermaid
 flowchart LR
@@ -142,10 +125,6 @@ Obliga a decidir dónde vive cada algoritmo y si elegir cuál opera para una
 empresa es código o configuración; si el algoritmo cambiara una vez al año,
 aislarlo sería sobreingeniería.
 
-**Cómo se verifica.** Con juicio de expertos (sección 6) y, como complemento, un
-experimento que hace tres cambios de algoritmo y cuenta, en cada diff, los
-componentes y las líneas tocadas fuera del nuevo, las h-h y lo que cuesta
-revertir.
 
 ```mermaid
 flowchart LR
@@ -180,9 +159,7 @@ leyera directamente los códigos de cada empresa, cada actualización de un
 proveedor tocaría todas las funciones que los interpretan. Obliga a decidir
 dónde termina lo que es de cada empresa y dónde empieza lo que comparten todas.
 
-**Cómo se verifica.** Con un experimento que ensaya el cambio de códigos en una
-IPS simulada y cuenta en el diff los componentes y las líneas tocadas fuera del
-modificado, más las h-h y los días. Este ASR no va en la encuesta de expertos.
+
 
 ```mermaid
 flowchart LR
