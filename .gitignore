@@ -1,0 +1,31 @@
+# Jekyll / wiki
+docs/_site/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/Gemfile.lock
+docs/vendor/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+.vscode/
+*.swp
+
+# Prototipo de los experimentos
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+bin/
+*.iml
+gradle.properties
+node_modules/
+__pycache__/
+.venv/
+
+# Resultados: se versiona solo lo que results.md cita
+analisis/resultados/*/eventos-*.csv
+analisis/resultados/humo-*
+analisis/resultados/resumen-*.tsv
