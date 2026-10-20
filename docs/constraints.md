@@ -82,7 +82,6 @@ cubre, y esta lista separa el dato de la estimación.
 | Pregunta | A quién |
 |---|---|
 | ¿Cuántas horas-hombre puede costar integrar una compañía adquirida? | Dirección de estrategia |
-| ¿Qué proporción de los registros de una compañía adquirida tiene que quedar interpretada? | Dirección financiera |
 | ¿Qué proporción de los registros de una empresa del grupo tiene que quedar interpretada? | Dirección financiera |
 | ¿Cuántas horas-hombre puede costar integrar los datos de una empresa del grupo? | Dirección de tecnología |
 | ¿Cuánto puede costar, y en cuánto tiempo, absorber el cambio de una empresa en su propio sistema? ¿Las empresas avisan antes de cambiar? | Dirección de tecnología |

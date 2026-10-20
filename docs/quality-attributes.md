@@ -19,10 +19,10 @@ está fijado en el [glosario](glossary.md).
 
 | ID | Atributo | Enunciado corto | Prioridad | Impacto |
 |---|---|---|---|---|
-| **ASR-I01** | Interoperabilidad | Integrar una compañía de turismo adquirida no modifica nada de lo existente, cuesta ≤ 500 h-h y deja interpretado ≥ 95 % de sus datos | Alta | Alto |
-| ASR-I02 | Interoperabilidad | Los datos de las empresas del grupo se interpretan con el significado que cada una les dio: ≥ 99 % interpretado y 0 registros con otro significado | Alta | Medio |
-| **ASR-M01** | Modificabilidad | Cambiar el algoritmo que interpreta los ingresos de una empresa toca un solo componente, cuesta ≤ 24 h-h y se revierte sin desarrollo | Alta | Alto |
-| ASR-M02 | Modificabilidad | Un cambio de una empresa en su propio sistema se absorbe tocando un solo componente, en ≤ 16 h-h | Alta | Medio |
+| **ASR-I01** | Interoperabilidad | Integrar una compañía de turismo adquirida no modifica nada de lo existente y cuesta ≤ 500 h-h | Alta | Alto |
+| ASR-I02 | Interoperabilidad | Los datos de las empresas del grupo se interpretan con el significado que cada una les dio: ≥ 99 % interpretado | Alta | Medio |
+| **ASR-M01** | Modificabilidad | Cambiar el algoritmo que interpreta los ingresos de una empresa cuesta ≤ 24 h-h y se revierte sin desarrollo | Alta | Alto |
+| ASR-M02 | Modificabilidad | Un cambio de una empresa en su propio sistema se absorbe en ≤ 16 h-h | Alta | Medio |
 
 La prioridad mide la importancia para el negocio, y el impacto, la dificultad de
 lograrlo. En negrilla están los dos que se validan con juicio de expertos, uno
@@ -48,7 +48,7 @@ holding.
 | Artefacto | La consolidación de los datos de la compañía en la vista unificada: clientes, ventas, ingresos, egresos y productos adquiridos |
 | Ambiente | En desarrollo. La holding conoce el sistema de la compañía en la debida diligencia, y no lo puede modificar |
 | Respuesta | Los datos de la compañía quedan en la vista unificada con el significado que ella les dio, o se rechazan con su razón. Lo que ya funciona para las ocho empresas del grupo no cambia |
-| Medida | 0 componentes ni interfaces existentes modificados o redesplegados, y 1 contrato de integración nuevo · ≤ 500 h-h desde la solicitud hasta que los datos están en la vista unificada · ≥ 95 % de los registros interpretados, y 0 registrados con otro significado |
+| Medida | 0 componentes ni interfaces existentes modificados o redesplegados, y 1 contrato de integración nuevo · ≤ 500 h-h desde la solicitud hasta que los datos están en la vista unificada |
 
 **Por qué es significativo.** Un contrato de integración es la descripción
 acordada de qué entrega la compañía, con qué forma y con qué significado. Pedir
@@ -57,8 +57,6 @@ a decidir si cada socio nuevo se suma por su cuenta o si su llegada toca lo que
 ya funciona. Con N adquisiciones, esa decisión es la diferencia
 entre sumar N contratos y hacer N cambios sobre el sistema en producción.
 
-
-
 ```mermaid
 flowchart LR
     F["🔹 Fuente<br/>Dirección de XYZ"]
@@ -66,7 +64,7 @@ flowchart LR
     subgraph AMB["Ambiente — desarrollo · sistema del socio no modificable"]
         A["Artefacto<br/>Consolidación de sus datos en la vista unificada"]
     end
-    A -- "Respuesta<br/>interpreta como la compañía quiso, o rechaza; lo existente no cambia" --> M["📏 Medida<br/>0 componentes ni interfaces existentes · 1 contrato nuevo · ≤ 500 h-h · ≥ 95 % interpretado"]
+    A -- "Respuesta<br/>interpreta como la compañía quiso, o rechaza; lo existente no cambia" --> M["📏 Medida<br/>0 componentes ni interfaces existentes · 1 contrato nuevo · ≤ 500 h-h"]
 ```
 
 ### ASR-I02 — Interpretar con el mismo significado los datos de las empresas del grupo
@@ -82,7 +80,7 @@ consolidar las cifras de la holding sin procesos manuales.
 | Artefacto | La consolidación de ingresos, egresos y clientes de esa empresa en la vista unificada |
 | Ambiente | En desarrollo. La empresa se conoce de antemano, y la holding manda sobre ella pero no sobre el producto de su proveedor |
 | Respuesta | Cada registro queda con el significado que le dio su empresa, o se rechaza con su razón |
-| Medida | ≥ 99 % de los registros interpretados · 0 registros con otro significado · ≤ 80 h-h por empresa, desde la solicitud hasta que sus datos están en la vista unificada |
+| Medida | ≤ 80 h-h por empresa, desde la solicitud hasta que sus datos están en la vista unificada |
 
 **Por qué es significativo.** Un monto en centavos que entra como si fueran pesos
 no lo detecta ninguna validación de formato: el dato tiene el tipo correcto y el
@@ -92,7 +90,6 @@ sigue el registro que no lo cumple. El formato lo valida una herramienta; el
 significado solo lo fija un acuerdo con cada empresa, y por eso es lo que más
 tarda en cerrarse.
 
-
 ```mermaid
 flowchart LR
     F["🔹 Fuente<br/>Dirección financiera"]
@@ -100,7 +97,7 @@ flowchart LR
     subgraph AMB["Ambiente — desarrollo · empresa conocida y bajo control"]
         A["Artefacto<br/>Consolidación de ingresos, egresos y clientes"]
     end
-    A -- "Respuesta<br/>conserva el significado de la empresa, o rechaza con su razón" --> M["📏 Medida<br/>≥ 99 % interpretado · 0 con otro significado · ≤ 80 h-h por empresa"]
+    A -- "Respuesta<br/>conserva el significado de la empresa, o rechaza con su razón" --> M["📏 Medida<br/>≥ 99 % interpretado · ≤ 80 h-h por empresa"]
 ```
 
 ### ASR-M01 — Cambiar el algoritmo que interpreta los ingresos de una empresa
@@ -117,14 +114,13 @@ demás empresas.
 | Artefacto | La interpretación de los ingresos de una empresa del grupo |
 | Ambiente | Desarrollo, con el sistema en producción. El algoritmo nuevo se liga en el código; su activación para una empresa y su reversión se ligan en ejecución, sin redesplegar |
 | Respuesta | El algoritmo nuevo se prueba y entra a producción solo para esa empresa. Las otras siete no cambian, y volver al algoritmo anterior no requiere desarrollo |
-| Medida | 1 componente nuevo o modificado · 0 líneas de código tocadas fuera de él · ≤ 24 h-h y ≤ 3 días hábiles desde la solicitud hasta producción · revertir: 0 líneas de código y ≤ 1 h-h |
+| Medida | ≤ 24 h-h  desde la solicitud hasta producción |
 
 **Por qué es significativo.** El enunciado anuncia que estos cambios serán
 frecuentes, y dice que hoy cada cambio en el análisis cuesta más de lo esperado.
 Obliga a decidir dónde vive cada algoritmo y si elegir cuál opera para una
 empresa es código o configuración; si el algoritmo cambiara una vez al año,
 aislarlo sería sobreingeniería.
-
 
 ```mermaid
 flowchart LR
@@ -133,7 +129,7 @@ flowchart LR
     subgraph AMB["Ambiente — desarrollo · el algoritmo se liga en el código; su activación, en ejecución"]
         A["Artefacto<br/>Interpretación de los ingresos de una empresa"]
     end
-    A -- "Respuesta<br/>entra a producción solo para esa empresa; se revierte sin desarrollo" --> M["📏 Medida<br/>1 componente · 0 líneas fuera · ≤ 24 h-h · ≤ 3 días · revertir sin código"]
+    A -- "Respuesta<br/>entra a producción solo para esa empresa; se revierte sin desarrollo" --> M["📏 Medida<br/>≤ 24 h-h · ≤ 3 días · revertir sin código"]
 ```
 
 ### ASR-M02 — Absorber el cambio de una empresa en su propio sistema
@@ -149,7 +145,7 @@ interpretación de esa empresa, para no rehacer la de las demás.
 | Artefacto | La lectura e interpretación de los datos de esa empresa |
 | Ambiente | En desarrollo, con el sistema de la holding en producción |
 | Respuesta | Solo se ajusta lo que lee los datos de esa empresa. El significado de los siete dominios no cambia, y la consolidación, los informes y las otras siete empresas siguen iguales |
-| Medida | 1 componente modificado · 0 líneas de código tocadas fuera de él · ≤ 16 h-h y ≤ 2 días hábiles desde que la empresa anuncia el cambio hasta que sus datos vuelven a entrar |
+| Medida | ≤ 16 h-h desde que la empresa anuncia el cambio hasta que sus datos vuelven a entrar |
 
 **Por qué es significativo.** Este cambio no lo decide la holding: lo decide la
 empresa, y según el enunciado ocurrirá en todas. En ASR-M01 la holding cambia lo
@@ -159,8 +155,6 @@ leyera directamente los códigos de cada empresa, cada actualización de un
 proveedor tocaría todas las funciones que los interpretan. Obliga a decidir
 dónde termina lo que es de cada empresa y dónde empieza lo que comparten todas.
 
-
-
 ```mermaid
 flowchart LR
     F["🔹 Fuente<br/>Dirección de tecnología"]
@@ -168,7 +162,7 @@ flowchart LR
     subgraph AMB["Ambiente — desarrollo · holding en producción"]
         A["Artefacto<br/>Lectura e interpretación de los datos de esa empresa"]
     end
-    A -- "Respuesta<br/>solo se ajusta lo de esa empresa; el resto no cambia" --> M["📏 Medida<br/>1 componente · 0 líneas fuera · ≤ 16 h-h · ≤ 2 días"]
+    A -- "Respuesta<br/>solo se ajusta lo de esa empresa; el resto no cambia" --> M["📏 Medida<br/>≤ 16 h-h · ≤ 2 días"]
 ```
 
 ## 3. Por qué ASR-I01 y ASR-M01 van a la validación
@@ -223,13 +217,13 @@ cambio, porque no se contiene igual un cambio propio que uno de un tercero.
 | Unificar un indicador, como el ingreso neto, que hoy se calcula distinto en varios análisis | Preventivo | La holding | En el código | Candidato para otra iteración |
 | Cambiar la presentación de los informes para directivos | Aditivo | Los directivos de XYZ | En el despliegue | Candidato: tiene menos peso en la estructura que los dos adaptativos |
 
-**La medida principal es de estructura.** En ASR-I01, ASR-M01 y ASR-M02 se mide
-primero cuántos componentes o interfaces existentes toca el cambio. Un «1
-componente tocado» solo se cumple si el diseño deja ese cambio contenido, y por
-eso esa medida es la que se puede exigirle a la arquitectura. Las h-h la
-acompañan sin reemplazarla: solas dependen del tamaño del cambio y del equipo.
-En ASR-I02 la medida principal es el porcentaje interpretado, porque lo que está
-en juego es el significado del dato y no la propagación.
+**Qué mide cada ASR.** En ASR-I01 la medida principal es de estructura: cuántos
+componentes o interfaces existentes toca la integración. En ASR-M01 y ASR-M02 la
+medida es el esfuerzo, en h-h y días hábiles. Las h-h solas dependen del tamaño
+del cambio y del equipo, y por eso cada ficha fija un cambio concreto y el
+equipo queda fijado en S-6. En ASR-I02 la medida principal es el porcentaje
+interpretado, porque lo que está en juego es el significado del dato y no la
+propagación.
 
 En **interoperabilidad**, el ambiente dice cuándo conoce la holding al socio y
 cuánto control tiene sobre él. Los cuatro escenarios se miden en desarrollo.
@@ -252,15 +246,11 @@ los de esa página.
 |---|---|---|---|
 | S-6 | El equipo es de 2 desarrolladores, con 8 h por día hábil y 22 días hábiles al mes | Es la escala mínima para absorber cambios frecuentes sin depender de cada empresa | Dirección de tecnología |
 | S-7 | Integrar la compañía de turismo cuesta ≤ 500 h-h, unos 31 días hábiles del equipo | En la clase del 13 de octubre, el profesor usó esta misma holding como ejemplo: integrar las agencias de viajes que compra en menos de 500 horas | Dirección de estrategia |
-| S-8 | De sus datos se interpreta ≥ 95 %, y el resto se rechaza con su razón. Se cuenta sobre los registros de un mes | Es la pérdida aceptable que la misma clase planteó para las agencias: un 5 % | Dirección financiera |
-| S-9 | Un cambio de algoritmo toca 1 componente y 0 líneas fuera de él | Son cambios frecuentes: si cada uno se riega por el sistema, el equipo pasa el tiempo corrigiendo lo que rompió | Dirección de tecnología |
-| S-10 | Un algoritmo nuevo llega a producción en ≤ 3 días hábiles y ≤ 24 h-h | Cabe en una semana y deja margen antes del cierre mensual. Las 24 h-h son 3 días de una persona | Dirección de analítica |
-| S-11 | Revertir un algoritmo cuesta 0 líneas de código y ≤ 1 h-h | Volver atrás no debería pedir un ciclo de desarrollo | Dirección de analítica |
-| S-12 | De los datos de una empresa del grupo se interpreta ≥ 99 %, y 0 entran con otro significado. Se cuenta sobre los registros de un mes | La holding puede pedirle a su empresa que corrija en la fuente, así que tolera menos pérdida que con una compañía recién comprada | Dirección financiera |
-| S-13 | Integrar los ingresos, egresos y clientes de una empresa del grupo cuesta ≤ 80 h-h | Son dos semanas de una persona, con una empresa del mismo sector y un sistema conocido. Las ocho suman 640 h-h, casi dos meses del equipo | Dirección de tecnología |
-| S-14 | Absorber el cambio de una empresa toca 1 componente y 0 líneas fuera de él | El cambio es de una sola empresa; si toca lo de las otras siete, cada actualización de un proveedor se vuelve un proyecto | Dirección de tecnología |
-| S-15 | Absorberlo cuesta ≤ 16 h-h y ≤ 2 días hábiles desde que la empresa lo anuncia | Dos días de una persona dejan los datos al día antes de que el atraso se note en el cierre mensual | Dirección de tecnología |
-| S-16 | Integrar una compañía adquirida modifica 0 componentes existentes y suma 1 contrato de integración | Vendrán más adquisiciones: si cada una toca lo que ya funciona, el costo crece con cada compra | Dirección de tecnología |
+| S-8 | Un algoritmo nuevo llega a producción en ≤ 3 días hábiles y ≤ 24 h-h | Cabe en una semana y deja margen antes del cierre mensual. Las 24 h-h son 3 días de una persona | Dirección de analítica |
+| S-9 | De los datos de una empresa del grupo se interpreta ≥ 99 %, y el resto se rechaza con su razón. Se cuenta sobre los registros de un mes | La holding puede pedirle a su empresa que corrija en la fuente, así que tolera menos pérdida que con una compañía recién comprada | Dirección financiera |
+| S-10 | Integrar los ingresos, egresos y clientes de una empresa del grupo cuesta ≤ 80 h-h | Son dos semanas de una persona, con una empresa del mismo sector y un sistema conocido. Las ocho suman 640 h-h, casi dos meses del equipo | Dirección de tecnología |
+| S-11 | Absorber el cambio de una empresa en su propio sistema cuesta ≤ 16 h-h y ≤ 2 días hábiles desde que la empresa lo anuncia | Dos días de una persona dejan los datos al día antes de que el atraso se note en el cierre mensual | Dirección de tecnología |
+| S-12 | Integrar una compañía adquirida modifica 0 componentes existentes y suma 1 contrato de integración | Vendrán más adquisiciones: si cada una toca lo que ya funciona, el costo crece con cada compra | Dirección de tecnología |
 
 Que las reservas de turismo quepan en los siete dominios no es una cifra, y está
 en restricciones como S-3.
@@ -275,9 +265,9 @@ arquitectura logre cada escenario, sin saber cuál lleva el umbral real.
 | Panel | Al menos dos personas de fuera del curso: un arquitecto de integración con experiencia en salud y un líder de analítica de una aseguradora. `[PREGUNTA → equipo del curso]` ¿Quiénes son? |
 | Qué se les presenta | Los dos ASR, la arquitectura y sus decisiones principales, sin elogiar las soluciones y sin mostrar los umbrales |
 | Escala | 1 muy improbable · 2 improbable · 3 ni una ni otra · 4 probable · 5 muy probable |
-| Escenarios de ASR-M01 | Cambiar el algoritmo de ingresos de una IPS tocando un solo componente, en 12, **24**, 36 o 72 h-h |
+| Escenarios de ASR-M01 | Cambiar el algoritmo de ingresos de una IPS en 12, **24**, 36 o 72 h-h |
 | Escenarios de ASR-I01 | Integrar la compañía de turismo sin modificar componentes ni interfaces existentes, en 150, 300, **500** o 1 000 h-h |
-| Control | Reemplazar la tecnología que guarda los datos unificados tocando un solo componente, en 24 h-h. Un panel que lo califique con 4 o 5 está aceptando todo, y su resultado se anula |
+| Control | Reemplazar la tecnología que guarda los datos unificados en 24 h-h. Un panel que lo califique con 4 o 5 está aceptando todo, y su resultado se anula |
 | Orden | Los nueve escenarios van mezclados al azar, y el formulario no señala cuál lleva el umbral real (en negrilla aquí) |
 | Tabulación | Una columna por experto, con la mediana y el rango |
 | Regla de decisión | Fijada antes de encuestar. **Sostenido:** mediana ≥ 4 y ningún experto ≤ 2. **Refutado:** mediana ≤ 2. **No concluyente:** cualquier otro caso |
@@ -310,7 +300,7 @@ empresa, y por eso tardan más.
 | Candidato | Por qué no es un ASR de este reto | Dónde queda |
 |---|---|---|
 | Que el dato llegue a la vista unificada en p95 ≤ 5 min | Mide cuánto tarda el dato en llegar, y eso es desempeño | Fuera de alcance |
-| Que el 100 % de los registros quede interpretado | El curso no espera el 100 %, y con él rechazar deja de ser una excepción. Lo exigible es ≥ 99 % sin errores silenciosos | ASR-I02 |
+| Que el 100 % de los registros quede interpretado | El curso no espera el 100 %, y con él rechazar deja de ser una excepción. Lo exigible es ≥ 99 % | ASR-I02 |
 | Revertir un algoritmo en ≤ 5 minutos | Los minutos de restablecimiento son disponibilidad. Lo de modificabilidad es que revertir no cueste código | ASR-M01 |
 | Cambiar el algoritmo de propensión de venta cruzada | Es un modelo de analítica, no un algoritmo que interprete los datos de una empresa, que es lo que nombra el enunciado | ASR-M01, con el algoritmo de ingresos |
 | La exactitud con que se reconoce al mismo cliente en varias empresas | Ninguna decisión de estructura cambia la exactitud de un algoritmo. Lo arquitectónico es poder cambiarlo | Requisito funcional |
@@ -330,9 +320,9 @@ empresa, y por eso tardan más.
 - **Si una empresa cambia su sistema sin avisar,** el plazo de ASR-M02 corre
   desde que la holding lo nota. Notarlo a tiempo es un tema de disponibilidad,
   fuera de este reto.
-- **Sin un lote de referencia firmado,** ASR-I01 y ASR-I02 no tienen contra qué
-  contar lo interpretado. `[PREGUNTA → dirección financiera]` ¿Quién lo arma, y
+- **Sin un lote de referencia firmado,** ASR-I02 no tiene contra qué contar lo
+  interpretado. `[PREGUNTA → dirección financiera]` ¿Quién lo arma, y
   con qué registros?
-- **Las cifras de S-6 a S-16 son supuestos.** Las preguntas que las
+- **Las cifras de S-6 a S-12 son supuestos.** Las preguntas que las
   confirmarían están en
   [restricciones cuantitativas pendientes](constraints.md#restricciones-cuantitativas-pendientes).

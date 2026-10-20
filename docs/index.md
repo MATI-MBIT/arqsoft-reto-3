@@ -37,10 +37,10 @@ camino.
 
 | ASR | Qué fija |
 |---|---|
-| ASR-I01 | Integrar una compañía de turismo adquirida no modifica nada de lo existente, cuesta ≤ 500 h-h y deja interpretado ≥ 95 % de sus datos |
-| ASR-I02 | Los datos de las empresas del grupo se interpretan con el significado que cada una les dio: ≥ 99 % interpretado y 0 registros con otro significado |
-| ASR-M01 | Cambiar el algoritmo que interpreta los ingresos de una empresa toca un solo componente, cuesta ≤ 24 h-h y se revierte sin desarrollo |
-| ASR-M02 | Un cambio de una empresa en su propio sistema se absorbe tocando un solo componente, en ≤ 16 h-h |
+| ASR-I01 | Integrar una compañía de turismo adquirida no modifica nada de lo existente y cuesta ≤ 500 h-h |
+| ASR-I02 | Los datos de las empresas del grupo se interpretan con el significado que cada una les dio: ≥ 99 % interpretado |
+| ASR-M01 | Cambiar el algoritmo que interpreta los ingresos de una empresa cuesta ≤ 24 h-h y se revierte sin desarrollo |
+| ASR-M02 | Un cambio de una empresa en su propio sistema se absorbe en ≤ 16 h-h |
 
 ASR-I01 y ASR-M01 se validan con juicio de expertos, y ASR-I02 y ASR-M02 con un
 experimento. El detalle, los supuestos detrás de cada cifra y el protocolo están en [escenarios de calidad](quality-attributes.md).
