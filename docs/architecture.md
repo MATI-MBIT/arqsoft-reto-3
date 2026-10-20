@@ -55,7 +55,7 @@ según el propio enunciado del reto.
 
 | Qué queda afuera | Por qué |
 |---|---|
-| Qué tan fresco llega el dato a la vista unificada | El enunciado pide los ingresos y egresos «tan rápido como sea posible». Eso es desempeño, y el reto 3 trata integración y modificación |
+| Cuánto tarda un dato en llegar a la vista unificada desde el sistema de la empresa | El enunciado pide los ingresos y egresos «tan rápido como sea posible». Eso es desempeño, y el reto 3 trata integración y modificación |
 | Reemplazar o integrar un sistema sin interrumpir la operación | Es disponibilidad. Lo que sí está dentro es que el reemplazo no rompa la integración |
 | La exactitud con que se reconoce al mismo cliente en varias empresas | Es un requisito funcional del algoritmo. Lo que sí está dentro es poder cambiar ese algoritmo |
 | Los sistemas de las empresas por dentro | La holding los integra como están, sin rediseñarlos ni reemplazarlos |

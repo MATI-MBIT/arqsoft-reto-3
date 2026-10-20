@@ -309,7 +309,7 @@ empresa, y por eso tardan más.
 
 | Candidato | Por qué no es un ASR de este reto | Dónde queda |
 |---|---|---|
-| Que el dato llegue a la vista unificada en p95 ≤ 5 min | Mide qué tan fresco llega el dato, y eso es desempeño | Fuera de alcance |
+| Que el dato llegue a la vista unificada en p95 ≤ 5 min | Mide cuánto tarda el dato en llegar, y eso es desempeño | Fuera de alcance |
 | Que el 100 % de los registros quede interpretado | El curso no espera el 100 %, y con él rechazar deja de ser una excepción. Lo exigible es ≥ 99 % sin errores silenciosos | ASR-I02 |
 | Revertir un algoritmo en ≤ 5 minutos | Los minutos de restablecimiento son disponibilidad. Lo de modificabilidad es que revertir no cueste código | ASR-M01 |
 | Cambiar el algoritmo de propensión de venta cruzada | Es un modelo de analítica, no un algoritmo que interprete los datos de una empresa, que es lo que nombra el enunciado | ASR-M01, con el algoritmo de ingresos |

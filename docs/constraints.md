@@ -70,7 +70,7 @@ razonamiento y no por herencia.
 | «Una base de datos unificada» | El negocio necesita leer juntos los siete dominios. Una base única, una consulta federada o una bodega lo logran de formas distintas, y elegir le toca al diseño. Por eso aquí se dice «vista unificada» |
 | Archivos CSV enviados por las empresas | Así se hace hoy, y es parte del problema. No obliga a conservarlos ni a descartarlos |
 | Procesamiento manual en la holding | Es el síntoma que el diseño reemplaza, no un requisito |
-| «Tan rápido como sea posible» | No nombra un mecanismo ni una cifra. Describe la frescura del dato, que es desempeño y queda fuera del alcance (ver [problema](architecture.md)) |
+| «Tan rápido como sea posible» | No nombra un mecanismo ni una cifra. Habla de cuánto tarda el dato en llegar, y eso es desempeño y queda fuera del alcance (ver [problema](architecture.md)) |
 | ERP, callcenter y manejo de clientes | Son ejemplos de los sistemas que existen, no una lista cerrada. Una compañía de turismo traerá otros, como un sistema de reservas |
 | «Algoritmos para interpretar los datos» | Dicen qué cambia, no dónde vive ni cómo se elige. Si el algoritmo es código, configuración o dato, lo deciden las decisiones de arquitectura |
 
