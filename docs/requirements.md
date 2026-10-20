@@ -7,18 +7,14 @@ helix_section: "Requirements & Quality"
 # Historias de usuario
 
 Esta página trae el árbol de épicas, features e historias del sistema que
-integra y analiza los datos de la holding XYZ. Helix pide esa jerarquía de tres
-niveles, y aquí ya está armada para que la réplica no tenga que inventarla.
-
-El actor de cada historia tiene que estar en [stakeholders](stakeholders.md),
-porque en Helix el campo `As a` es un desplegable. El vocabulario está fijado en
-el [glosario](glossary.md).
+integra y analiza los datos de la holding XYZ. El actor de cada historia está en
+[stakeholders](stakeholders.md), y el vocabulario, en el
+[glosario](glossary.md).
 
 {: .importante }
 > Los criterios de aceptación dicen **qué** tiene que ocurrir, nunca **en cuánto
-> tiempo** ni **con cuánto esfuerzo**. Los umbrales aparecen por primera vez en
-> los [escenarios de calidad](quality-attributes.md). Un criterio con horas
-> adentro es una medida adelantada, y rompe el orden del razonamiento.
+> tiempo** ni **con cuánto esfuerzo**. Los umbrales están en los
+> [escenarios de calidad](quality-attributes.md).
 
 Numeración: `E-n` para épicas, `F-n.m` para features, `HU-01` en adelante para
 historias, corrida a lo largo de todo el árbol.
@@ -150,8 +146,9 @@ datos junto con los del resto de la holding.
 los ingresos de una empresa, y volver al anterior si no sirve, **para**
 ajustarlo sin alterar a las demás empresas.
 
-Caso de referencia: hoy los ingresos de una IPS se toman como lo facturado, y la
-holding decide tomarlos como lo facturado menos lo glosado.
+Caso de referencia: hoy los ingresos de una IPS, una de las clínicas u
+hospitales del grupo, se toman como lo facturado. La holding decide restarles lo
+glosado, que es el valor que el pagador objeta y la IPS puede no recibir.
 
 | # | Criterio |
 |---|---|
@@ -175,7 +172,7 @@ códigos de estado nuevos y una interfaz distinta.
 | 1 | Los datos de la empresa vuelven a entrar a la vista unificada con el significado correcto |
 | 2 | Solo se ajusta lo que lee los datos de esa empresa |
 | 3 | La lectura de las otras siete empresas, la consolidación y los informes no cambian |
-| 4 | El significado común de los siete dominios no cambia |
+| 4 | El significado de los siete dominios no cambia |
 
 ### HU-10 — Ingresos y egresos unificados
 

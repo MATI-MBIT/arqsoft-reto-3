@@ -8,8 +8,8 @@ helix_section: "Objective → Glossary"
 
 Esta página fija el vocabulario del reto 3: la holding XYZ, sus empresas de
 salud y la integración de sus datos. Cuando dos palabras del enunciado nombran
-lo mismo, aquí se elige una y se dice cuál se descarta, porque un término
-ambiguo produce un escenario ambiguo.
+lo mismo, aquí se elige una y se dice cuál se descarta, para que todas las
+páginas usen el mismo término.
 
 ## Actores
 
@@ -33,7 +33,7 @@ estados.
 | Dominio de datos | Cada una de las siete clases de información que se integran: clientes, contratos, proveedores, ventas, ingresos, egresos y productos adquiridos por los clientes |
 | Lote | Un conjunto de registros que una empresa entrega de una vez, por ejemplo los de un mes |
 | Entregado | El registro salió del sistema de la empresa y llegó a la holding, todavía con los campos, códigos y moneda de la empresa |
-| Interpretado | El registro quedó con el significado que la empresa le dio, expresado en los términos comunes de la holding |
+| Interpretado | El registro quedó con el significado que la empresa le dio, expresado en los términos de la holding |
 | Rechazado con diagnóstico | El registro no se pudo interpretar y quedó apartado con la razón escrita. No entra a la vista unificada con un significado equivocado |
 | Consolidado | El registro interpretado ya forma parte de la vista unificada y se puede leer junto con los de las demás empresas |
 | Vista unificada | La lectura conjunta de los siete dominios para todas las empresas. Se dice «vista unificada» y no «base de datos unificada», porque la segunda nombra un mecanismo (ver [restricciones](constraints.md)) |

@@ -7,12 +7,12 @@ helix_section: "Stakeholders"
 # Stakeholders
 
 Esta página lista quiénes participan en el sistema que integra y analiza los
-datos de la holding XYZ. Va antes que las historias de usuario porque en Helix
-el campo `As a` de cada historia es un desplegable de stakeholders: quien no
-esté aquí no puede ser actor de una historia.
+datos de la holding XYZ. Solo quien está aquí puede ser actor de una historia de
+usuario.
 
-Helix guarda tres campos por stakeholder, que son las tres columnas de la tabla.
-El vocabulario está fijado en el [glosario](glossary.md).
+Varios stakeholders usan la vista unificada: la lectura conjunta de los datos de
+todas las empresas, que hoy no existe. El vocabulario está fijado en el
+[glosario](glossary.md).
 
 ## Quiénes participan en el sistema
 
@@ -41,7 +41,7 @@ compra.
 
 **Dirección de tecnología.** Su equipo construye el sistema y arregla lo que se
 rompe. Integrar una compañía o reemplazar un sistema no debería tocar lo que ya
-funciona, porque cada cambio que se riega termina en regresiones.
+funciona, porque su equipo tendría que corregir lo que cada cambio rompe.
 
 **Dirección de analítica.** Según el enunciado, cambiará con frecuencia los
 algoritmos que interpretan los datos de cada empresa. Un cambio para una

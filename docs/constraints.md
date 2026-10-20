@@ -8,11 +8,10 @@ helix_section: "Constraints"
 
 Esta página reúne lo que el contexto de la holding XYZ ya decidió y que el
 diseño no puede cambiar. Lo que el diseño sí puede cambiar es una hipótesis de
-solución, y la penúltima sección separa las dos cosas.
+solución, y la sección «Qué del enunciado no es una restricción» las separa.
 
 Las restricciones se numeran `R-1` en adelante, corridas a lo largo de las tres
-primeras secciones. Helix solo tiene dos cubetas, `Business` y `Technology`, y
-ningún campo de identificador; al replicar, el `R-n` va dentro del texto.
+primeras secciones.
 
 ## Restricciones del negocio
 
@@ -33,15 +32,14 @@ ningún campo de identificador; al replicar, el `R-n` va dentro del texto.
 
 ## Restricciones del proyecto
 
-Las impone el curso y no el negocio. En Helix no tienen cubeta propia y se
-cargan como `Business`.
+Las impone el curso y no el negocio.
 
 | ID | Restricción | De dónde sale |
 |---|---|---|
-| R-8 | El reto trata dos atributos: facilidad de integración y facilidad de modificación | Título del enunciado |
+| R-8 | El reto trata dos atributos: facilidad de integración y facilidad de modificación, que esta wiki llama interoperabilidad y modificabilidad | Título del enunciado |
 | R-9 | Se prioriza al menos un escenario de interoperabilidad y uno de modificabilidad, y los dos se validan con juicio de expertos | Clase del 13 de octubre |
 | R-10 | Las decisiones de arquitectura se implementan para validar que cumplen los requerimientos de calidad | Objetivo del enunciado |
-| R-11 | El equipo, el calendario y la fecha de entrega. `[PREGUNTA]` Integrantes además de Nicolás Rozo y Carlos Chaparro, y fecha de entrega | Curso |
+| R-11 | El equipo, el calendario y la fecha de entrega. `[PREGUNTA → equipo del curso]` Fecha de entrega | Curso |
 
 ## Supuestos
 
@@ -58,13 +56,13 @@ continúan esta numeración desde S-6.
 | S-1 | La holding manda sobre cada empresa del grupo, pero no sobre el producto de su proveedor. Para el software, toda empresa es un tercero | El enunciado dice que los sistemas son «de diferentes proveedores» |
 | S-2 | Una compañía adquirida es un tercero fuera de control. Su sistema no se modifica, y la holding lo conoce en la debida diligencia, antes de integrarla | R-3 y R-7 |
 | S-3 | Los datos de una compañía de turismo caben en los siete dominios: una reserva se lee como venta y producto adquirido, y una cancelación como venta revertida. A confirmar con la dirección de estrategia | Los siete dominios ya cubren qué se vendió, a quién y por cuánto |
-| S-4 | Los cambios los hace un equipo propio de la holding, que conoce el sistema de la holding y no el de cada empresa. A confirmar con la dirección de tecnología | El enunciado no dice quién hace los cambios |
+| S-4 | Los cambios los hace el equipo de desarrollo de la holding, que conoce el sistema de la holding y no el de cada empresa. A confirmar con la dirección de tecnología | El enunciado no dice quién hace los cambios |
 | S-5 | Interpretar un dato es darle el significado que le dio su empresa. El registro que no se puede interpretar se rechaza con su razón, en vez de entrar con otro significado | La dirección financiera necesita consolidar cifras comparables |
 
 ## Qué del enunciado no es una restricción
 
 El enunciado trae mecanismos concretos, y esos son **hipótesis de solución**, no
-restricciones. Si una decisión del paso 3 adopta alguno, lo adopta por su propio
+restricciones. Si una decisión de arquitectura adopta alguno, lo adopta por su propio
 razonamiento y no por herencia.
 
 | Lo que trae el enunciado | Por qué no es restricción |

@@ -38,7 +38,7 @@ según el propio enunciado del reto.
 
 - Leer juntos los siete dominios de datos de todas las empresas: clientes,
   contratos, proveedores, ventas, ingresos, egresos y productos adquiridos por
-  los clientes.
+  los clientes. Esa lectura conjunta es la vista unificada.
 - Integrar una compañía adquirida, de turismo o de salud, aunque su sistema esté
   en producción y sea de otro proveedor.
 - Reemplazar un sistema de una empresa, por ejemplo un ERP o un callcenter
