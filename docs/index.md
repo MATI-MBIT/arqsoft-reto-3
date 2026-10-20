@@ -4,10 +4,10 @@ layout: home
 nav_order: 1
 ---
 
-# Reto 3 — [PREGUNTA] título del reto, con el sistema y los atributos de calidad
+# Reto 3 — Integración y modificación en la holding XYZ
 
 Wiki del reto 3 de **ARTI4109 Arquitectura de Software** (MATI, Universidad de
-los Andes). Tema: [PREGUNTA] los atributos de calidad del reto. Autor: Nicolás
+los Andes). Tema: interoperabilidad y modificabilidad del sistema que integra los datos de las empresas de salud de la holding XYZ. Autor: Nicolás
 Rozo.
 
 Esta wiki es la fuente de verdad del reto. Lo que se carga en Helix es una
@@ -35,8 +35,13 @@ camino.
 
 ## Los escenarios de calidad
 
-[PREGUNTA] Resumen de una línea por ASR, con su umbral. Se llena cuando
-`quality-attributes.md` esté cerrada.
+| ASR | Qué fija |
+|---|---|
+| ASR-I01 | Integrar una compañía de turismo adquirida no modifica ningún componente existente, suma 1 contrato de integración, cuesta ≤ 500 h-h e interpreta ≥ 95 % de su lote |
+| ASR-M01 | Cambiar el algoritmo que interpreta los ingresos de una empresa toca 1 componente, 0 LOC de legado fuera de él, cuesta ≤ 24 h-h y se revierte sin desarrollo |
+
+El detalle, los supuestos detrás de cada cifra y el protocolo de juicio de
+expertos están en [escenarios de calidad](quality-attributes.md).
 
 ## Lo que dijeron los experimentos
 

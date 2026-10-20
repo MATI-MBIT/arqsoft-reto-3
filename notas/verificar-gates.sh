@@ -22,7 +22,7 @@ falla1=0
 for f in docs/*.md; do
   base=$(basename "$f")
   case " $EXENTAS " in *" $base "*) continue ;; esac
-  n=$(grep -c 'ASR-[0-9]' "$f" 2>/dev/null)
+  n=$(grep -cE 'ASR-[A-Z]?[0-9]' "$f" 2>/dev/null)
   if [ "${n:-0}" -gt 0 ]; then
     aviso "$base cita un ASR $n vez/veces; los insumos no pueden nombrarlos"
     falla1=1

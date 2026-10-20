@@ -1,8 +1,8 @@
 # arqsoft-reto-3 — contexto del proyecto
 
 Reto 3 de **ARTI4109 Arquitectura de Software** (MATI, Universidad de los
-Andes). Tema: `[PREGUNTA]` los atributos de calidad del reto. Autor: Nicolás
-Rozo.
+Andes). Tema: interoperabilidad y modificabilidad en la holding XYZ, un grupo
+de empresas de salud. Autor: Nicolás Rozo, con Carlos Chaparro en el equipo.
 
 Este archivo es el traspaso entre sesiones. Léalo completo antes de actuar.
 
@@ -10,29 +10,25 @@ Este archivo es el traspaso entre sesiones. Léalo completo antes de actuar.
 
 ## Estado actual
 
-**El repositorio está recién montado.** Trae la estructura, las plantillas y la
-metodología heredada del reto 2. El contenido del reto 3 no se ha escrito: todo
-lo que falta está marcado con `[PREGUNTA]`.
-
-Lo que ya existe y funciona:
+**Pasos 1 y 2 cerrados (2026-10-20).** Están escritos los cinco insumos y los
+ASR. Lo que sigue es el paso 3, las decisiones en `docs/modelos/adrs.md`.
 
 | Pieza | Estado |
 |---|---|
-| Wiki Jekyll en `docs/` con tema Just the Docs | Montada, con las diez páginas como plantilla |
-| `.github/workflows/pages.yml` | Copiado del reto 2, que lo tenía probado |
-| `notas/metodologia-y-pasos.md` | **El procedimiento completo.** Es lo primero que hay que leer |
-| `notas/helix-recorrido-funcional.md` | Cómo es Helix por dentro, verificado con navegador |
-| `notas/contrato-de-replica.md` | El procedimiento de sincronización, con la tabla de ASR sin llenar |
-| `notas/verificar-gates.sh` | Las compuertas automáticas. `make gates` |
-| `services/`, `deploy/`, `load/`, `analisis/` | Carpetas con su README; sin código |
+| Enunciado | `ARTI4109-reto3-v2.pdf`, citado por párrafo como `[Ctx]`, `[Reto-1]` y `[Reto-2]` |
+| Insumos del paso 1 | `architecture.md`, `stakeholders.md`, `constraints.md` (R-1 a R-11, S-1 a S-5), `requirements.md` (E-1 a E-3, HU-01 a HU-13) y `glossary.md` |
+| ASR del paso 2 | `quality-attributes.md`: ASR-I01 (cuelga de HU-03) y ASR-M01 (cuelga de HU-07), con supuestos S-6 a S-11 |
+| Origen de los ASR | La v1 de Carlos Chaparro (`ASRs_reto3.md`) y la v2 que la reescribe (`reto3-asrs-v2-i01-m01.md`). La wiki publica la v2; las H-0n de la v2 son ahora S-n, con la equivalencia en la tabla de supuestos |
+| `notas/verificar-gates.sh` | La compuerta 1 reconoce `ASR-I01` y `ASR-M01`, no solo `ASR-n` |
+| Wiki, workflow y notas de Helix | Heredados del reto 2, sin cambios |
 
-Lo que falta de entrada, y que conviene resolver antes de escribir:
+Lo que sigue abierto:
 
-- `[PREGUNTA]` El enunciado del reto 3 y los atributos de calidad que pide.
 - `[PREGUNTA]` La arquitectura del reto 3 en Helix: ID (`ARQ-nnn`), URL y
   quiénes la comparten.
-- `[PREGUNTA]` Si la skill de escritura sigue disponible. Ver «Cómo trabaja
-  Nicolás».
+- `[PREGUNTA]` Los sub-atributos y deslizadores de Interoperability y
+  Modifiability en Helix (tabla en `notas/contrato-de-replica.md`).
+- `[PREGUNTA]` El panel de expertos, el resto del equipo y la fecha de entrega.
 
 ---
 
@@ -98,10 +94,10 @@ adelantado, porque obliga a reescribir todo lo que ya citaba lo que se adelantó
 **Escritura.** En el reto 2 usó la skill `escribir-y-pulir-textos` para todo lo
 que se redactaba, instalada como skill sincronizada desde Claude Desktop.
 
-`[PREGUNTA]` **Hoy esa skill no está disponible.** Al 2026-10-20 aparece en
-`~/.claude/skills/.trash/`, es decir que se borró, y no está entre las skills
-sincronizadas. Hay que preguntarle a Nicolás si la reinstala, si usa otra, o si
-se trabaja sin ella respetando a mano lo que exigía.
+Al 2026-10-20 la skill vuelve a aparecer como `editorial:escribir-y-pulir-textos`,
+junto con `editorial:revisar-texto` y las de `arquitectura:` (`definir-asrs-software`,
+`decidir-adrs-arquitectura`, `diagramar-uml-arquitectura`). Los pasos 1 y 2 se
+escribieron sin invocarlas, respetando a mano lo que exigen.
 
 Lo que la skill exigía y que conviene respetar de todos modos: temperamento
 técnico, que significa **cero aforismos**; títulos descriptivos; frases de 20 a
@@ -173,9 +169,11 @@ Notación: el símbolo **≤** para los umbrales, nunca `<=`. Identificadores
 `CN-n` para elementos y conectores del catálogo, y `DG-CMP-nnn`, `DG-CLS-nnn`,
 `DG-STM-nnn`, `DG-CON-nnn`, `DG-DEP-nnn` para los diagramas por vista.
 
-`[PREGUNTA]` El vocabulario del dominio del reto 3, que se fija en
-`docs/glossary.md` y se respeta en todas las páginas. En el reto 2 la regla fue
-decir «pedido» y no compra ni orden, y «ejecución» y no corrida.
+El vocabulario del dominio está fijado en `docs/glossary.md`: «empresa del
+grupo» y no filial; «compañía adquirida» para la que aún no se integra;
+«interpretar» y no transformar ni mapear; «vista unificada» y no base de datos
+unificada, porque esta última nombra un mecanismo. Los ASR usan `ASR-I0n` y
+`ASR-M0n`, y las horas de trabajo se escriben `h-h`.
 
 ---
 

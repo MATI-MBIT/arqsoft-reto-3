@@ -77,7 +77,8 @@ diseño.
 
 | ASR | Atributo · sub-atributo | Medida nuestra | ¿Cabe en el formulario? |
 |---|---|---|---|
-| ASR-1 | `[PREGUNTA]` | `[PREGUNTA]` | `[PREGUNTA]` |
+| ASR-I01 | Interoperability · `[PREGUNTA]` sub-atributo por verificar | 0 componentes existentes, 1 contrato, ≤ 500 h-h, ≥ 95 % interpretado | `[PREGUNTA]` Verificar los deslizadores de Interoperability. Lo más probable es que ninguna de las cuatro medidas tenga campo y vivan solo en la wiki. `TPS = 0` |
+| ASR-M01 | Modifiability · `[PREGUNTA]` sub-atributo por verificar | 1 componente, 0 LOC fuera, ≤ 24 h-h, ≤ 3 días, reversión 0 LOC y ≤ 1 h-h | `[PREGUNTA]` Verificar los deslizadores de Modifiability. Ninguna medida es de tiempo de respuesta, así que el techo de 60 000 ms no aplica. `TPS = 0` |
 
 ## Lo que Helix cuenta y hoy vale cero
 
