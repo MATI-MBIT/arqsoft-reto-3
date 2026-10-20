@@ -48,7 +48,7 @@ holding.
 | Artefacto | La consolidación de los datos de la compañía en la vista unificada: clientes, ventas, ingresos, egresos y productos adquiridos |
 | Ambiente | En desarrollo. La holding conoce el sistema de la compañía en la debida diligencia, y no lo puede modificar |
 | Respuesta | Los datos de la compañía quedan en la vista unificada con el significado que ella les dio, o se rechazan con su razón. Lo que ya funciona para las ocho empresas del grupo no cambia |
-| Medida | ≤ 500 h-h desde la solicitud hasta que los datos están en la vista unificada · ≥ 95 % de los registros interpretados, y 0 registrados con otro significado · 0 componentes existentes modificados o redesplegados, y 1 contrato de integración nuevo |
+| Medida | 0 componentes ni interfaces existentes modificados o redesplegados, y 1 contrato de integración nuevo · ≤ 500 h-h desde la solicitud hasta que los datos están en la vista unificada · ≥ 95 % de los registros interpretados, y 0 registrados con otro significado |
 
 **Por qué es significativo.** Un contrato de integración es la descripción
 acordada de qué entrega la compañía, con qué forma y con qué significado. Pedir
@@ -73,7 +73,7 @@ flowchart LR
     subgraph AMB["Ambiente — desarrollo · sistema del socio no modificable"]
         A["Artefacto<br/>Consolidación de sus datos en la vista unificada"]
     end
-    A -- "Respuesta<br/>interpreta como la compañía quiso, o rechaza; lo existente no cambia" --> M["📏 Medida<br/>0 componentes existentes · 1 contrato nuevo · ≤ 500 h-h · ≥ 95 % interpretado"]
+    A -- "Respuesta<br/>interpreta como la compañía quiso, o rechaza; lo existente no cambia" --> M["📏 Medida<br/>0 componentes ni interfaces existentes · 1 contrato nuevo · ≤ 500 h-h · ≥ 95 % interpretado"]
 ```
 
 ### ASR-I02 — Interpretar con el mismo significado los datos de las empresas del grupo
@@ -95,7 +95,9 @@ consolidar las cifras de la holding sin procesos manuales.
 no lo detecta ninguna validación de formato: el dato tiene el tipo correcto y el
 significado equivocado. Este ASR obliga a decidir dónde se declara el
 significado de cada campo, con su unidad, su moneda y sus códigos, y qué ruta
-sigue el registro que no lo cumple.
+sigue el registro que no lo cumple. El formato lo valida una herramienta; el
+significado solo lo fija un acuerdo con cada empresa, y por eso es lo que más
+tarda en cerrarse.
 
 **Cómo se cuenta el porcentaje.** Sobre un lote de referencia que firma la
 dirección financiera, con los registros de un mes de la empresa (S-12). Un
@@ -130,7 +132,7 @@ demás empresas.
 | Fuente | La dirección de analítica de la holding |
 | Estímulo | Cambiar el algoritmo que interpreta los ingresos de una IPS, una de las clínicas u hospitales del grupo. Hoy se toma lo facturado, y la holding decide restarle lo glosado: el valor que el pagador objeta y la IPS puede no recibir |
 | Artefacto | La interpretación de los ingresos de una empresa del grupo |
-| Ambiente | El algoritmo nuevo se construye en desarrollo. Activarlo para una empresa, o volver al anterior, ocurre con el sistema en ejecución y sin redesplegar |
+| Ambiente | Desarrollo, con el sistema en producción. El algoritmo nuevo se liga en el código; su activación para una empresa y su reversión se ligan en ejecución, sin redesplegar |
 | Respuesta | El algoritmo nuevo se prueba y entra a producción solo para esa empresa. Las otras siete no cambian, y volver al algoritmo anterior no requiere desarrollo |
 | Medida | 1 componente nuevo o modificado · 0 líneas de código tocadas fuera de él · ≤ 24 h-h y ≤ 3 días hábiles desde la solicitud hasta producción · revertir: 0 líneas de código y ≤ 1 h-h |
 
@@ -149,7 +151,7 @@ revertir.
 flowchart LR
     F["🔹 Fuente<br/>Dirección de analítica"]
     F -- "Estímulo<br/>cambiar el algoritmo que interpreta los ingresos de una IPS" --> A
-    subgraph AMB["Ambiente — se construye en desarrollo · se activa y revierte en ejecución"]
+    subgraph AMB["Ambiente — desarrollo · el algoritmo se liga en el código; su activación, en ejecución"]
         A["Artefacto<br/>Interpretación de los ingresos de una empresa"]
     end
     A -- "Respuesta<br/>entra a producción solo para esa empresa; se revierte sin desarrollo" --> M["📏 Medida<br/>1 componente · 0 líneas fuera · ≤ 24 h-h · ≤ 3 días · revertir sin código"]
@@ -171,7 +173,9 @@ interpretación de esa empresa, para no rehacer la de las demás.
 | Medida | 1 componente modificado · 0 líneas de código tocadas fuera de él · ≤ 16 h-h y ≤ 2 días hábiles desde que la empresa anuncia el cambio hasta que sus datos vuelven a entrar |
 
 **Por qué es significativo.** Este cambio no lo decide la holding: lo decide la
-empresa, y según el enunciado ocurrirá en todas. Si la lógica de la holding
+empresa, y según el enunciado ocurrirá en todas. En ASR-M01 la holding cambia lo
+suyo y busca que no se propague; aquí cambia un tercero, y la holding busca que
+el cambio no la alcance. Si la lógica de la holding
 leyera directamente los códigos de cada empresa, cada actualización de un
 proveedor tocaría todas las funciones que los interpretan. Obliga a decidir
 dónde termina lo que es de cada empresa y dónde empieza lo que comparten todas.
@@ -224,17 +228,31 @@ deciden.
 Estos ASR no se miden bajo carga, sino mientras se construye el cambio. Por eso
 los cuatro entran a Helix con **TPS = 0**.
 
-En **modificabilidad**, el ambiente dice en qué momento se fija lo que cambia: en
-el código (desarrollo), en la compilación, en el despliegue o con el sistema en
-ejecución. Cambiar código cuesta más que cambiar un dato, y por eso importa.
+En **modificabilidad** se juzga el trabajo de cambiar el sistema, así que el
+ambiente siempre es desarrollo, aunque el sistema siga en producción mientras
+tanto. Lo que varía es en qué momento se liga el cambio: en el código, en la
+compilación, en el despliegue o en ejecución. Cambiar código cuesta más que
+cambiar un dato, y por eso el momento de ligado cambia el costo.
 
-| Cambio probable | Tipo | Cuándo se fija | Resultado |
-|---|---|---|---|
-| Cambiar el algoritmo que interpreta los datos de una empresa | Adaptativo | El algoritmo, en desarrollo; su activación y su reversión, en ejecución | **ASR-M01** |
-| Absorber el cambio de una empresa en su propio sistema | Adaptativo | Desarrollo | **ASR-M02** |
-| Corregir una regla mal aplicada y recalcular su histórico | Correctivo | Desarrollo | No es ASR aparte: lo resuelve la misma decisión que ASR-M01 |
-| Unificar un indicador, como el ingreso neto, que hoy se calcula distinto en varios análisis | Preventivo | Desarrollo | Candidato para otra iteración |
-| Cambiar la presentación de los informes para directivos | Aditivo | Despliegue | Candidato: tiene menos peso en la estructura que los dos adaptativos |
+La tabla trae un cambio probable por tipo, no todos los posibles: diseñar para
+cualquier cambio es sobreingeniería. La columna «Viene de» dice quién origina el
+cambio, porque no se contiene igual un cambio propio que uno de un tercero.
+
+| Cambio probable | Tipo | Viene de | Cuándo se liga | Resultado |
+|---|---|---|---|---|
+| Cambiar el algoritmo que interpreta los datos de una empresa | Adaptativo | El negocio de la holding | El algoritmo, en el código; su activación y su reversión, en ejecución | **ASR-M01** |
+| Absorber el cambio de una empresa en su propio sistema | Adaptativo | Un tercero: la empresa y su proveedor | En el código | **ASR-M02** |
+| Corregir una regla mal aplicada y recalcular su histórico | Correctivo | La holding | En el código | No es ASR aparte: lo resuelve la misma decisión que ASR-M01 |
+| Unificar un indicador, como el ingreso neto, que hoy se calcula distinto en varios análisis | Preventivo | La holding | En el código | Candidato para otra iteración |
+| Cambiar la presentación de los informes para directivos | Aditivo | Los directivos de XYZ | En el despliegue | Candidato: tiene menos peso en la estructura que los dos adaptativos |
+
+**La medida principal es de estructura.** En ASR-I01, ASR-M01 y ASR-M02 se mide
+primero cuántos componentes o interfaces existentes toca el cambio. Un «1
+componente tocado» solo se cumple si el diseño deja ese cambio contenido, y por
+eso esa medida es la que se puede exigirle a la arquitectura. Las h-h la
+acompañan sin reemplazarla: solas dependen del tamaño del cambio y del equipo.
+En ASR-I02 la medida principal es el porcentaje interpretado, porque lo que está
+en juego es el significado del dato y no la propagación.
 
 En **interoperabilidad**, el ambiente dice cuándo conoce la holding al socio y
 cuánto control tiene sobre él. Los cuatro escenarios se miden en desarrollo.
@@ -281,7 +299,7 @@ arquitectura logre cada escenario, sin saber cuál lleva el umbral real.
 | Qué se les presenta | Los dos ASR, la arquitectura y sus decisiones principales, sin elogiar las soluciones y sin mostrar los umbrales |
 | Escala | 1 muy improbable · 2 improbable · 3 ni una ni otra · 4 probable · 5 muy probable |
 | Escenarios de ASR-M01 | Cambiar el algoritmo de ingresos de una IPS tocando un solo componente, en 12, **24**, 36 o 72 h-h |
-| Escenarios de ASR-I01 | Integrar la compañía de turismo sin modificar nada existente, en 150, 300, **500** o 1 000 h-h |
+| Escenarios de ASR-I01 | Integrar la compañía de turismo sin modificar componentes ni interfaces existentes, en 150, 300, **500** o 1 000 h-h |
 | Control | Reemplazar la tecnología que guarda los datos unificados tocando un solo componente, en 24 h-h. Un panel que lo califique con 4 o 5 está aceptando todo, y su resultado se anula |
 | Orden | Los nueve escenarios van mezclados al azar, y el formulario no señala cuál lleva el umbral real (en negrilla aquí) |
 | Tabulación | Una columna por experto, con la mediana y el rango |
@@ -294,6 +312,14 @@ Integrar dos sistemas exige cerrar cinco distancias entre ellos: la sintáctica
 comportamiento (qué pasa ante cada estado), la temporal (los ritmos y plazos) y
 la de recursos (lo que comparten). La tabla dice cuál ASR cierra cada una, o por
 qué quedó fuera.
+
+Cada distancia corresponde a un nivel de interoperabilidad. La sintáctica se
+cierra cuando los dos sistemas comparten el formato, y la semántica en datos,
+cuando comparten el significado de cada valor. La de comportamiento se cierra en
+el nivel pragmático: que los dos usen el dato igual en su proceso, como que una
+reserva cancelada revierta la venta en vez de contar como una venta nueva. Los
+niveles bajos los resuelve la tecnología; los altos exigen acuerdos con cada
+empresa, y por eso tardan más.
 
 | Socio | Sintáctica | Semántica en datos | Semántica en comportamiento | Temporal y de recursos |
 |---|---|---|---|---|
@@ -320,6 +346,10 @@ qué quedó fuera.
   obliga a ampliar los siete dominios y ASR-I01 no se cumple tal como está escrito.
   La salida es medir que el modelo crezca sin romper a quienes ya lo usan, o
   cambiar el estímulo a una compañía de salud.
+- **El acuerdo con la compañía adquirida puede tardar más que la integración.**
+  Las 500 h-h de ASR-I01 cuentan el trabajo de ingeniería. Pactar qué datos
+  entrega la compañía, con qué significado y cómo se concilian depende de
+  personas, puede tomar meses y no lo acorta ninguna decisión de software.
 - **Si una empresa cambia su sistema sin avisar,** el plazo de ASR-M02 corre
   desde que la holding lo nota. Notarlo a tiempo es un tema de disponibilidad,
   fuera de este reto.
