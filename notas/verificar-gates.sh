@@ -60,7 +60,7 @@ fi
 echo
 echo "Compuerta 6 — la notación fijada"
 # Se ignoran las líneas que también traen ≤: son las que enseñan la notación.
-malos=$(grep -rn '<=' docs/ 2>/dev/null | grep -v '≤')
+malos=$(grep -rnI '<=' docs/ 2>/dev/null | grep -v '≤')
 if [ -n "$malos" ]; then
   aviso "hay '<=' en vez del símbolo '≤':"
   printf '%s\n' "$malos" | sed 's/^/      /'

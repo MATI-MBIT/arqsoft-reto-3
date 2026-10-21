@@ -10,8 +10,9 @@ Este archivo es el traspaso entre sesiones. Léalo completo antes de actuar.
 
 ## Estado actual
 
-**Pasos 1 y 2 cerrados (2026-10-20).** Están escritos los cinco insumos y los
-ASR. Lo que sigue es el paso 3, las decisiones en `docs/modelos/adrs.md`.
+**Pasos 1 a 4 escritos (2026-10-20).** Insumos, ASR, decisiones y modelos. Los
+cuatro ADR están **Aceptados** (2026-10-20): un cambio a uno de ellos es un ADR nuevo que lo reemplaza. Lo que sigue
+es el paso 5, los experimentos.
 
 | Pieza | Estado |
 |---|---|
@@ -20,6 +21,9 @@ ASR. Lo que sigue es el paso 3, las decisiones en `docs/modelos/adrs.md`.
 | ASR del paso 2 | `quality-attributes.md`: ASR-I01 (HU-03), ASR-I02 (HU-10), ASR-M01 (HU-07) y ASR-M02 (HU-05), con supuestos S-6 a S-15. I01 y M01 van al juicio de expertos; I02 y M02 se verifican con experimento |
 | Origen de los ASR | El documento de Carlos Chaparro (`ASRs_reto3.md`), refinado con la skill `arquitectura:definir-asrs-software`. **La wiki no menciona autoría, versiones ni historia de edición**: Nicolás lo pidió así porque al lector no le importa. Su documento también trae una arquitectura (modelo canónico, conectores, bus, reglas como plug-ins) y dos ADR, que son insumo para el paso 3 |
 | `notas/verificar-gates.sh` | La compuerta 1 reconoce `ASR-I01` y `ASR-M01`, no solo `ASR-n` |
+| Decisiones (paso 3) | `docs/modelos/adrs.md`, contrato `adr-log/v2`, hecho con `arquitectura:decidir-adrs-arquitectura`: ADR-001 conector por fuente (INT-01, MOD-03), ADR-002 contrato canónico con cuarentena (INT-04 `cdm`), ADR-003 bus pub-sub (MOD-04, INT-09), ADR-004 estrategias con versión activa en ejecución (MOD-03, MOD-09). Lint de la skill: 0 errores |
+| Modelos (paso 4) | 17 diagramas en cuatro vistas, hechos con `arquitectura:diagramar-uml-arquitectura` en modo draw.io. Fuente: `docs/modelos/drawio/Reto3-Vista-*.drawio`; las páginas muestran `docs/modelos/png/nn-DG-*.png`. El Mermaid solo se usó para validar paridad y no va en la wiki: Nicolás pidió «solo draw.io». Manda el `.drawio`: un cambio se hace ahí y se reexporta el PNG con `drawio -x -f png -s 2 -p <página> -o <png> <archivo>` (páginas numeradas desde 1) |
+| Draft de Carlos | `Reto3-Arquitectura-General.drawio` y `-v2.drawio` en `docs/modelos/drawio/`: insumo, no se tocan |
 | Wiki, workflow y notas de Helix | Heredados del reto 2, sin cambios |
 
 Lo que sigue abierto:
