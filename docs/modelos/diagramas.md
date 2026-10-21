@@ -13,51 +13,62 @@ quedan cerrados y qué quedó sin dibujar.
 La fuente de cada diagrama es una página del `.drawio` de su vista, en
 `modelos/drawio/`, y lo que las páginas muestran es el PNG exportado a
 `modelos/png/`. El PNG se regenera cuando cambia la fuente; nunca se edita el
-PNG. Los diecisiete diagramas son **vigentes**: los cuatro ADR están aceptados.
+PNG. Los veintiséis diagramas son **vigentes**: los cuatro ADR están aceptados.
+
+El punto de partida es el diagrama de arquitectura general del equipo
+(`drawio/Reto3-Arquitectura-General-v2.drawio`). De él salen los subsistemas
+del panorama, los conectores por tipo de empresa, los siete tópicos del bus, el
+registro unificado y los nombres de las interfaces. Los nombres de los
+componentes, las tácticas y las medidas salen del [registro de ADR](adrs.md) y
+de los [escenarios de calidad](../quality-attributes.md).
 
 ## Las cuatro vistas
 
 | Vista | Página | Qué responde | Fuente | Diagramas |
 |---|---|---|---|---|
-| Componentes | [vista de componentes](vista-componentes.md) | Qué piezas hay y cómo se hablan | `Reto3-Vista-Componentes.drawio` | DG-CMP-001 a DG-CMP-004, DG-CST-001, DG-CST-002, DG-SEQ-001 a DG-SEQ-003 |
-| Concurrencia | [vista de concurrencia](vista-concurrencia.md) | Qué corre en paralelo y dónde se sincroniza | `Reto3-Vista-Concurrencia.drawio` | DG-CON-001, DG-CON-002 |
-| Información | [vista de información](vista-informacion.md) | Qué datos y qué estados existen | `Reto3-Vista-Informacion.drawio` | DG-CLS-001, DG-CLS-002, DG-STM-001, DG-STM-002 |
-| Despliegue | [vista de despliegue](vista-despliegue.md) | Dónde corre cada cosa y qué se despliega al cambiar | `Reto3-Vista-Despliegue.drawio` | DG-DEP-001, DG-DEP-002 |
+| Componentes | [vista de componentes](vista-componentes.md) | Qué piezas hay y cómo se hablan | `Reto3-Vista-Componentes.drawio` | DG-CMP-001 a DG-CMP-006, DG-CST-001 a DG-CST-003, DG-SEQ-001 a DG-SEQ-004 |
+| Concurrencia | [vista de concurrencia](vista-concurrencia.md) | Qué corre en paralelo y dónde se sincroniza | `Reto3-Vista-Concurrencia.drawio` | DG-CON-001 a DG-CON-003 |
+| Información | [vista de información](vista-informacion.md) | Qué datos y qué estados existen | `Reto3-Vista-Informacion.drawio` | DG-CLS-001 a DG-CLS-004, DG-STM-001 a DG-STM-003 |
+| Despliegue | [vista de despliegue](vista-despliegue.md) | Dónde corre cada cosa y qué se despliega al cambiar | `Reto3-Vista-Despliegue.drawio` | DG-DEP-001 a DG-DEP-003 |
 
-Cada vista abre con un diagrama general y sigue con acercamientos que muestran
-una táctica cada uno. En la de componentes, los dos componentes clave, el
-conector y el motor, se abren con su caja blanca (`DG-CST`) y su secuencia
-interna (`DG-SEQ`).
+Cada vista abre con un diagrama general (DG-CMP-001, DG-CON-001, DG-CLS-001 y
+DG-DEP-001) y sigue con acercamientos que hacen visible una táctica cada uno. En
+la de componentes, los dos componentes clave, el conector de turismo y el motor,
+se abren con su caja blanca (`DG-CST`) y su secuencia interna (`DG-SEQ`).
+
+## Dónde se ve cada táctica
+
+| Táctica | ADR | Componentes | Concurrencia | Información | Despliegue |
+|---|---|---|---|---|---|
+| INT-01 Wrapper · interfaz común | ADR-001 | DG-CMP-002, DG-CST-001, DG-SEQ-001 | — | DG-CLS-003 | DG-DEP-002 |
+| MOD-03 Encapsular · ocultar interfaces que no aplican | ADR-001 | DG-CST-001, DG-CMP-004, DG-SEQ-003 | — | DG-CLS-003 | — |
+| INT-04 Contrato explícito · modelo canónico | ADR-002 | DG-CMP-003, DG-CST-002, DG-SEQ-002 | DG-CON-002 | DG-CLS-002, DG-STM-001 | — |
+| MOD-04 Intermediarios · publicar-suscribir | ADR-003 | DG-CMP-001, DG-CMP-005, DG-CST-002 | DG-CON-001 | DG-STM-002 | DG-DEP-002 |
+| INT-09 Coreografía | ADR-003 | DG-CMP-001, DG-CMP-005 | DG-CON-001 | — | — |
+| MOD-03 Encapsular · API estable versionada | ADR-004 | DG-CMP-006 | — | DG-CLS-004 | — |
+| MOD-09 Ligado en configuración · ejecución | ADR-004 | DG-CMP-006, DG-CST-003, DG-SEQ-004 | DG-CON-003 | DG-CLS-004, DG-STM-003 | DG-DEP-003 |
+
+La marca de cada táctica se escribe `«tactic» {id = …, variante = …}`. En los
+estados y en los artefactos de despliegue va en una nota anclada al elemento,
+porque draw.io no la dibuja dentro de esas formas.
 
 ## Dónde se ve cada decisión
 
 | ADR | Decisión | Diagramas donde se ve |
 |---|---|---|
-| [ADR-001](adrs.md) | Un conector por fuente, tras un puerto común, que traduce al modelo canónico | DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-003, DG-SEQ-002, DG-DEP-001 |
-| [ADR-002](adrs.md) | Contrato canónico versionado, validado en cada conector, con cuarentena | DG-CMP-001, DG-CMP-002, DG-SEQ-001, DG-SEQ-002, DG-CLS-001, DG-STM-001 |
-| [ADR-003](adrs.md) | Bus de eventos con un tópico por dominio canónico | DG-CMP-001, DG-SEQ-001, DG-CST-002, DG-CON-001, DG-DEP-001 |
-| [ADR-004](adrs.md) | Algoritmos como estrategias, con la versión activa en configuración que se lee en ejecución | DG-CMP-001, DG-CMP-004, DG-CST-002, DG-SEQ-003, DG-CON-002, DG-CLS-002, DG-STM-002, DG-DEP-002 |
-
-## Tácticas de los ADR con su ID del catálogo
-
-| Táctica | ADR | Elemento | Estereotipo |
-|---|---|---|---|
-| INT-01 Wrapper (adaptador) | ADR-001 | Conector de la compañía de turismo; su parte `adapter` | `«tactic» {id = INT-01, variante = interfaz-común}` |
-| MOD-03 Encapsular | ADR-001 | Parte `hiddenImplementation` del conector; conector de empresa | `«tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican}` |
-| INT-04 Contrato de interfaz explícito | ADR-002 | Validador de contrato; clase `ContratoDominio` | `«tactic» {id = INT-04, variante = cdm}` |
-| MOD-04 Usar intermediarios | ADR-003 | Tema canónico del bus | `«tactic» {id = MOD-04, variante = pub-sub}` |
-| INT-09 Coreografía | ADR-003 | Núcleo de interpretación; consolidación financiera | `«tactic» {id = INT-09}` |
-| MOD-03 Encapsular | ADR-004 | Interfaz `IReglaInterpretacion` | `«tactic» {id = MOD-03, variante = api-estable-versionada}` |
-| MOD-09 Ligado en configuración | ADR-004 | Motor de interpretación; su parte `configurator` | `«tactic» {id = MOD-09, variante = ejecución}` |
+| [ADR-001](adrs.md) | Un conector por fuente, tras un puerto común, que traduce al modelo canónico | DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-004, DG-SEQ-003, DG-CLS-003, DG-DEP-001, DG-DEP-002 |
+| [ADR-002](adrs.md) | Contrato canónico versionado, validado en cada conector, con cuarentena | DG-CMP-001, DG-SEQ-001, DG-CMP-003, DG-CST-002, DG-SEQ-002, DG-SEQ-003, DG-CON-002, DG-CLS-001, DG-CLS-002, DG-STM-001 |
+| [ADR-003](adrs.md) | Bus de eventos con un tema por dominio canónico | DG-CMP-001, DG-CMP-002, DG-CMP-003, DG-CST-002, DG-SEQ-002, DG-CMP-004, DG-CMP-005, DG-CST-003, DG-CON-001, DG-CON-002, DG-STM-002, DG-DEP-001, DG-DEP-002 |
+| [ADR-004](adrs.md) | Algoritmos como estrategias, con la versión activa en configuración que se lee en ejecución | DG-CMP-001, DG-CMP-006, DG-CST-003, DG-SEQ-004, DG-CON-003, DG-CLS-004, DG-STM-003, DG-DEP-001, DG-DEP-003 |
 
 ## Matriz ASR × ADR × diagrama
 
 | ASR | ADR | Diagramas que lo demuestran | Hueco |
 |---|---|---|---|
-| ASR-I01 | ADR-001 (S), ADR-002 (C), ADR-003 (C) | DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-DEP-001 | — |
-| ASR-I02 | ADR-002 (S), ADR-001 (C) | DG-CMP-002, DG-SEQ-001, DG-CLS-001, DG-STM-001 | — |
-| ASR-M01 | ADR-004 (S) | DG-CMP-004, DG-CST-002, DG-SEQ-003, DG-CON-002, DG-CLS-002, DG-STM-002, DG-DEP-002 | — |
-| ASR-M02 | ADR-001 (S), ADR-003 (C) | DG-CMP-003, DG-SEQ-002, DG-CON-001 | — |
+| ASR-I01 | ADR-001 (S), ADR-002 (C), ADR-003 (C) | DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-005, DG-CLS-003, DG-DEP-002 | — |
+| ASR-I02 | ADR-002 (S), ADR-001 (C) | DG-CMP-003, DG-CST-002, DG-SEQ-002, DG-CON-002, DG-CLS-002, DG-STM-001 | — |
+| ASR-M01 | ADR-004 (S) | DG-CMP-006, DG-CST-003, DG-SEQ-004, DG-CON-003, DG-CLS-004, DG-STM-003, DG-DEP-003 | — |
+| ASR-M02 | ADR-001 (S), ADR-003 (C) | DG-CMP-004, DG-SEQ-003, DG-CON-001, DG-CON-002, DG-CLS-003, DG-STM-002 | — |
 
 S: la decisión satisface el escenario. C: contribuye.
 
@@ -65,27 +76,69 @@ S: la decisión satisface el escenario. C: contribuye.
 
 | Componente | Por qué no se abre |
 |---|---|
-| Conector de empresa del grupo | Tiene la misma estructura que el conector de turismo, que sí se abre en DG-CST-001 |
-| Validador de contrato | Valida contra el contrato; lo que decide el escenario está en el contrato mismo (DG-CLS-001), no en cómo se recorre |
+| Conectores de las empresas del grupo (EPS, IPS, Prepagada, Seguros) | Tienen la misma estructura que el conector de turismo, que sí se abre en DG-CST-001 y DG-CST-002 |
 | Bus, registro de contratos y cuarentena | Son productos que se compran (COTS) |
-| Catálogo de reglas | Es un conjunto de artefactos; cada versión se ve en DG-CLS-002 y DG-DEP-002 |
+| Catálogo de reglas | Es un conjunto de artefactos; cada versión se ve en DG-CLS-004 y DG-DEP-003 |
 | Datos maestros, API de consultas, portal de informes | Ningún escenario de este reto pasa por ellos; en el panorama quedan dentro de su subsistema |
 
-## Diferencias entre diagramas por resolver
+## Diferencias con el catálogo y con el diagrama general
 
-- **El configurador de reglas.** En el catálogo de elementos del
-  [registro de ADR](adrs.md) es un elemento propio (EL-29). En los diagramas es
-  una parte del motor (DG-CST-002), porque la recarga en caliente ocurre dentro
-  del proceso del motor. El catálogo ya lo declara como parte del motor.
-- **La marca de táctica de los temas, los artefactos y los estados.** draw.io no
-  la dibuja dentro de esos elementos, así que en DG-CMP-001, DG-CON-001,
-  DG-DEP-001, DG-DEP-002, DG-STM-001 y DG-STM-002 la marca va en una nota anclada
-  al elemento.
+- **El validador de contrato.** En el catálogo de elementos del
+  [registro de ADR](adrs.md) es un elemento propio (EL-07), estereotipado
+  «boundary» y descrito como parte del kit común de los conectores. En los
+  diagramas es una parte de cada conector (`contractValidator`, DG-CST-002),
+  porque así lo dice ADR-002: cada conector valida lo que traduce. Por eso no
+  aparece suelto en el panorama, igual que en el diagrama general del equipo.
+- **El configurador de reglas.** En el catálogo es un elemento propio (EL-29). En
+  los diagramas es una parte del motor (DG-CST-003), porque la recarga en
+  caliente ocurre dentro del proceso del motor. El catálogo ya lo declara como
+  parte del motor.
+- **El bus y sus interfaces.** El diagrama general dibuja el bus como un
+  componente con `IPublicarEvento` e `ISuscribirEvento`. En la vista lógica se
+  dibuja como sus temas, `«event»`, para que se vea que quien publica no conoce
+  a quien se suscribe; el broker aparece en el despliegue.
+- **Las insignias de ASR.** El diagrama general marca cada caja con los ASR en
+  cuyo alcance está. Aquí la traza va en el título de cada diagrama y en sus
+  notas, para no pasar de dos estereotipos por caja.
+- **Las medidas.** La tabla de trazabilidad del diagrama general trae medidas de
+  una versión anterior de los escenarios. Los diagramas usan las de la
+  [página de escenarios](../quality-attributes.md).
 
 ## Huecos y diagramas pendientes
 
+- **Qué gana en el reproceso.** Si un registro rechazado se reprocesa después de
+  que llegó una versión más nueva del mismo registro, la escritura idempotente
+  no dice cuál queda (DG-CON-002). Hay que decidir si manda la fecha de origen.
+- **Los parámetros del canal durable.** `T_lock` y `maxEntregas` van `TBD` en
+  DG-STM-002; los fija el prototipo.
 - **El protocolo temporal con cada socio.** No hay una secuencia de timeouts y
   reintentos, porque la distancia temporal quedó descartada en los escenarios:
   no se conoce hasta la debida diligencia.
 - **Los productos y protocolos del despliegue** (broker, contenedores, «AMQP»,
   «SQL») son supuestos hasta que el prototipo los fije.
+
+## Validación
+
+| Puerta | Resultado |
+|---|---|
+| Sintaxis del Mermaid de paridad (mmdc 12.0.0) | 26 de 26 compilan |
+| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`) | 0 errores en 26 diagramas |
+| Paridad entre el Mermaid y cada `.drawio` | 0 diferencias en las cuatro vistas |
+| Congruencia del layout (B6') | En 0 en todas las páginas |
+
+Los avisos que quedan están justificados:
+
+- **Elementos de más.** El panorama (DG-CMP-001) tiene 14 elementos y la caja
+  blanca de validación (DG-CST-002) tiene 13, por encima de 12. El panorama
+  muestra el sistema entero, y la caja blanca necesita los cuatro roles del
+  modelo canónico.
+- **Proporción.** DG-CMP-002 sale a 2,85:1, por encima de 2,5:1; ninguna partición
+  la mejora sin romper la congruencia.
+- **Cruces.** DG-CMP-003 tiene tres y DG-DEP-001 tiene dos. El emisor no los
+  evita en ninguna de las disposiciones que probó.
+- **Sin `eclosionar`.** DG-CMP-004 no lo declara, porque el conector de la IPS
+  tiene la estructura del de turismo.
+- **Equipo sin elemento estructural.** La línea de vida del equipo en DG-SEQ-003
+  es el actor del cambio y no aparece en un diagrama estructural.
+- **Sin redundancia.** DG-DEP-003 no la dibuja, porque la disponibilidad queda
+  fuera de este reto.
