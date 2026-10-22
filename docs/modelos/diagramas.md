@@ -105,19 +105,24 @@ S: la decisión satisface el escenario. C: contribuye.
   diagrama del equipo. Sale de ADR-001, que pone cada conector detrás de un
   puerto común, y solo aparece en los acercamientos de ASR-I01 y ASR-M02.
 - **Los estereotipos.** Los del diagrama del equipo («adaptador», «bus de
-  mensajes», «cola», «almacén», «plug-in», «registro») van después de
-  «component», que la notación UML pide. Donde la caja ya lleva su marca de
-  táctica, se deja solo «component», para no pasar de dos estereotipos.
+  mensajes», «cola», «almacén», «plug-in», «registro») van en el diagrama
+  general, como en el original. En los acercamientos cada componente va como
+  «component», porque la notación de la skill solo admite ahí «component»,
+  «external», «subsystem» y «COTS». Los nombres sí son los del diagrama del
+  equipo.
 - **Las insignias de ASR.** Siguen la convención del diagrama general: cada
   elemento lleva una insignia por ASR en cuyo alcance está, rellena si es
   artefacto y de contorno punteado si solo participa. La diferencia es que aquí
   el alcance se lee en la pregunta de cada página: en DG-CMP-004 el conector de
   la EPS no lleva la insignia de ASR-M02, porque esa página muestra justamente
-  que no cambia. Las insignias no cuentan como estereotipo.
-- **Las medidas.** La tabla de trazabilidad del diagrama general trae medidas de
-  una versión anterior de los escenarios, varias por ASR. La tabla de cada
-  página trae una sola medida por ASR, la de la
-  [página de escenarios](../quality-attributes.md).
+  que no cambia. Las insignias llevan el ID corto del diagrama del equipo (I01,
+  I02, M01, M02), con un color por ASR, y no cuentan como estereotipo.
+- **Las medidas y la tabla.** La tabla de trazabilidad del diagrama del equipo
+  trae medidas de una versión anterior de los escenarios, varias por ASR. La
+  tabla de cada vista trae una sola medida por ASR, la de la
+  [página de escenarios](../quality-attributes.md). La tabla es una por archivo:
+  reúne los elementos de todas las páginas de la vista, y se repite igual bajo
+  cada diagrama.
 
 ## Huecos y diagramas pendientes
 
@@ -141,20 +146,28 @@ S: la decisión satisface el escenario. C: contribuye.
 
 | Puerta | Resultado |
 |---|---|
-| Sintaxis del Mermaid de paridad (mmdc 12.0.0) | 26 de 26 compilan |
-| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`, plugin `arquitectura` 1.13.0) | 0 errores en 25 diagramas; DG-CMP-001 con errores, por la excepción de abajo |
-| Leyenda, tabla de trazabilidad e insignias en cada página (TRAZ, ALC) | 0 errores en las 26 páginas |
-| Paridad entre el Mermaid y cada `.drawio`, insignias incluidas | 0 diferencias en las cuatro vistas |
-| Congruencia del layout (B6') | En 0 en todas las páginas salvo DG-CMP-001 |
+| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`, plugin `arquitectura` 1.15.1, modo draw.io) | 0 errores en los 26 diagramas de las cuatro vistas |
+| Eclosión N0 → N1 → N2 (AP-20 a AP-23) y tácticas (TAC), por archivo | 0 errores; los avisos van abajo |
+| Congruencia del layout (B6') | En 0 en las 26 páginas, DG-CMP-001 incluida |
+| Render en draw.io (`drawio -x`), mirado página por página | Las 26 páginas se leen; la iconografía es la UML |
 
-**La excepción: DG-CMP-001.** Reproduce entero el diagrama general del equipo, y
-por eso no cumple el presupuesto visual de la skill. Tiene 44 elementos (la
-skill bloquea por encima de 20) y cinco notas de 166 a 195 caracteres (admite
-tres de 160). `IPublicarEvento` tiene siete conexiones y el motor seis (máximo
-cinco). Además, la troncal compartida de los conectores del original deja
-catorce cruces y cuatro pares de aristas encimadas. Su disposición no la calcula
-el emisor: se toma del diagrama del equipo, escalada, y el emisor pone las
-formas UML, las insignias, la leyenda y la tabla.
+En el modo draw.io de la skill no hay Mermaid: la fuente de cada diagrama es su
+página del `.drawio`, que escribe el emisor desde el modelo.
+
+**La excepción: DG-CMP-001.** Reproduce entero el diagrama general del equipo,
+con su disposición. El emisor de la skill dibuja la vista general con sus
+paquetes, su bus y sus externos, pero con los 39 elementos del original no
+encuentra una retícula que se lea: probó una, dos y tres filas y la mejor dejaba
+13 cruces y un nombre de interfaz cruzado por su arista. Su salida sería fundir
+los conectores de cada paquete, y eso dejaría de ser el diagrama del equipo.
+Por eso la página toma las formas UML, las insignias, la leyenda y la tabla del
+emisor, y cada elemento va en la posición que tiene en el original, escalada
+×1,3. Lo único que cambia frente al original es el ruteo hacia `IPublicarEvento`
+e `ISuscribirEvento`: cada conector llega por su propio carril, en lugar de la
+troncal compartida, que dejaba aristas encimadas. Pasa el lint sin errores. Sus
+avisos son tres cruces, todos del ancla de la nota «Contención del cambio», que
+baja por la columna de notas, y doce aristas que van contra el sentido de
+lectura, como las de cada conector hacia su empresa, a la izquierda.
 
 Los avisos que quedan en los demás están justificados:
 
@@ -162,10 +175,10 @@ Los avisos que quedan en los demás están justificados:
   elementos, porque necesita los cuatro roles del modelo canónico. Los dos
   despliegues generales (DG-DEP-001 con 15 y DG-DEP-002 con 13) cuentan cada
   nodo y cada artefacto.
-- **Proporción.** DG-CMP-002 sale a 2,74:1, por encima de 2,5:1; ninguna
+- **Proporción.** DG-CMP-002 sale a 2,84:1, por encima de 2,5:1; ninguna
   partición la mejora sin romper la congruencia.
-- **Cruces.** DG-CMP-003 tiene tres, DG-DEP-001 dos y DG-CMP-002 uno, el del
-  ancla de su nota. El emisor no los evita en ninguna de las disposiciones que
+- **Cruces.** DG-CMP-001 tiene tres, DG-CMP-003 tres, DG-DEP-001 dos y
+  DG-CMP-002 uno, el del ancla de su nota. El emisor no los evita en ninguna de las disposiciones que
   probó.
 - **Retorno.** En DG-CON-002, la publicación del hilo de lectura vuelve contra el
   flujo hacia el tópico canónico. Es preferencia de lectura y no bloquea.
@@ -173,5 +186,11 @@ Los avisos que quedan en los demás están justificados:
   tiene la estructura del conector empresa N.
 - **Equipo sin elemento estructural.** La línea de vida del equipo en DG-SEQ-003
   es el actor del cambio y no aparece en un diagrama estructural.
+- **Roles de las tácticas.** En las cajas blancas del conector empresa N, los
+  roles que juegan los puertos (`target`, `adaptee`, `contract`, `channel`)
+  están ligados por la colaboración de cada táctica, y el lint avisa que no
+  lleva el estereotipo del rol. La máquina de estados de MOD-04 (DG-STM-002)
+  está en la vista de información, y el lint de la vista de componentes avisa
+  que no la ve, porque revisa cada archivo por separado.
 - **Sin redundancia.** DG-DEP-003 no la dibuja, porque la disponibilidad queda
   fuera de este reto.

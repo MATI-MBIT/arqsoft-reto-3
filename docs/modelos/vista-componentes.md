@@ -36,7 +36,7 @@ un cambio se hace ahí y se reexporta el PNG.
 
 | Símbolo | Qué significa |
 |---|---|
-| Caja con el ícono de componente | Un componente UML. «external» es un sistema de otra empresa. El segundo estereotipo es el del diagrama general: «adaptador», «bus de mensajes», «cola», «almacén», «plug-in», «registro» |
+| Caja con el ícono de componente | Un componente UML. «external» es un sistema de otra empresa, en gris; el borde punteado es lo que se agrega a futuro. En el diagrama general, cada componente lleva el estereotipo del diagrama del equipo: «adaptador», «bus de mensajes», «cola», «almacén», «plug-in», «registro». En los acercamientos va como «component» |
 | Carpeta | Un paquete del diagrama general: un grupo de componentes con una misma responsabilidad |
 | Círculo y semicírculo | Interfaz provista (círculo) y requerida (semicírculo) |
 | Caja con «event» | Un tópico del bus de eventos canónicos: quien publica no conoce a quien se suscribe. Fuera del general, el bus se dibuja así, como sus tópicos |
@@ -47,9 +47,9 @@ un cambio se hace ahí y se reexporta el PNG.
 | `{control = …}` | Cuánto controla la holding al socio: bajo control (sus empresas) o fuera de control (una compañía adquirida) |
 | `{distancia = …}`, `{binding = …}`, `{contract = …, v = …}` | Qué distancia de integración cierra la táctica, en qué momento se liga lo que cambia y contra qué versión del contrato se valida |
 | Nota con la esquina doblada | La decisión y su precio, o la medida del escenario |
-| Insignia rellena con el ID de un ASR | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio |
+| Insignia rellena con el ID corto de un ASR (I01, I02, M01, M02) | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio. Cada ASR tiene su color, el mismo en las cuatro vistas |
 | Insignia de contorno punteado | El elemento **participa** en la respuesta de ese ASR sin modificarse |
-| Tabla bajo cada diagrama | La trazabilidad de la página: por ASR, su atributo, qué es artefacto, qué participa, la táctica y la medida del [escenario de calidad](../quality-attributes.md) |
+| Tabla bajo cada diagrama | La trazabilidad de la vista: una fila por ASR, con su atributo, los elementos de la vista que son artefacto o participan, la táctica y la medida del [escenario de calidad](../quality-attributes.md). Es la misma en todas las páginas del archivo |
 
 ## DG-CMP-001 · Arquitectura general
 

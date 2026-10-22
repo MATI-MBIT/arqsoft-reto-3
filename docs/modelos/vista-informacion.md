@@ -39,9 +39,9 @@ un cambio se hace ahí y se reexporta el PNG.
 | Rectángulo redondeado | Un estado; las flechas son transiciones con `evento [guarda] / acción` |
 | Círculo lleno y círculo con anillo | Estado inicial y estado final |
 | `TBD` | Un parámetro que el ADR todavía no fija |
-| Insignia rellena con el ID de un ASR | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio |
+| Insignia rellena con el ID corto de un ASR (I01, I02, M01, M02) | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio. Cada ASR tiene su color, el mismo en las cuatro vistas |
 | Insignia de contorno punteado | El elemento **participa** en la respuesta de ese ASR sin modificarse |
-| Tabla bajo cada diagrama | La trazabilidad de la página: por ASR, su atributo, qué es artefacto, qué participa, la táctica y la medida del [escenario de calidad](../quality-attributes.md) |
+| Tabla bajo cada diagrama | La trazabilidad de la vista: una fila por ASR, con su atributo, los elementos de la vista que son artefacto o participan, la táctica y la medida del [escenario de calidad](../quality-attributes.md). Es la misma en todas las páginas del archivo |
 
 ## DG-CLS-001 · Los siete dominios de la vista unificada
 
