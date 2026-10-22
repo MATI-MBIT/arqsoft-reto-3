@@ -24,12 +24,12 @@ de los [escenarios de calidad](../quality-attributes.md).
 
 ## Las cuatro vistas
 
-| Vista | Página | Qué responde | Fuente | Diagramas |
+| Vista | Página | Qué responde | Fuente (se abre en draw.io) | Diagramas |
 |---|---|---|---|---|
-| Componentes | [vista de componentes](vista-componentes.md) | Qué piezas hay y cómo se hablan | `Reto3-Vista-Componentes.drawio` | DG-CMP-001 a DG-CMP-006, DG-CST-001 a DG-CST-003, DG-SEQ-001 a DG-SEQ-004 |
-| Concurrencia | [vista de concurrencia](vista-concurrencia.md) | Qué corre en paralelo y dónde se sincroniza | `Reto3-Vista-Concurrencia.drawio` | DG-CON-001 a DG-CON-003 |
-| Información | [vista de información](vista-informacion.md) | Qué datos y qué estados existen | `Reto3-Vista-Informacion.drawio` | DG-CLS-001 a DG-CLS-004, DG-STM-001 a DG-STM-003 |
-| Despliegue | [vista de despliegue](vista-despliegue.md) | Dónde corre cada cosa y qué se despliega al cambiar | `Reto3-Vista-Despliegue.drawio` | DG-DEP-001 a DG-DEP-003 |
+| Componentes | [vista de componentes](vista-componentes.md) | Qué piezas hay y cómo se hablan | [`Reto3-Vista-Componentes.drawio`](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio) | DG-CMP-001 a DG-CMP-006, DG-CST-001 a DG-CST-003, DG-SEQ-001 a DG-SEQ-004 |
+| Concurrencia | [vista de concurrencia](vista-concurrencia.md) | Qué corre en paralelo y dónde se sincroniza | [`Reto3-Vista-Concurrencia.drawio`](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio) | DG-CON-001 a DG-CON-003 |
+| Información | [vista de información](vista-informacion.md) | Qué datos y qué estados existen | [`Reto3-Vista-Informacion.drawio`](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Informacion.drawio) | DG-CLS-001 a DG-CLS-004, DG-STM-001 a DG-STM-003 |
+| Despliegue | [vista de despliegue](vista-despliegue.md) | Dónde corre cada cosa y qué se despliega al cambiar | [`Reto3-Vista-Despliegue.drawio`](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Despliegue.drawio) | DG-DEP-001 a DG-DEP-003 |
 
 Cada vista abre con un diagrama general (DG-CMP-001, DG-CON-001, DG-CLS-001 y
 DG-DEP-001) y sigue con acercamientos que hacen visible una táctica cada uno. En
@@ -97,11 +97,15 @@ S: la decisión satisface el escenario. C: contribuye.
   componente con `IPublicarEvento` e `ISuscribirEvento`. En la vista lógica se
   dibuja como sus temas, `«event»`, para que se vea que quien publica no conoce
   a quien se suscribe; el broker aparece en el despliegue.
-- **Las insignias de ASR.** El diagrama general marca cada caja con los ASR en
-  cuyo alcance está. Aquí la traza va en el título de cada diagrama y en sus
-  notas, para no pasar de dos estereotipos por caja.
+- **Las insignias de ASR.** Siguen la convención del diagrama general: cada
+  elemento lleva una insignia por ASR en cuyo alcance está, rellena si es
+  artefacto y de contorno punteado si solo participa. La diferencia es que aquí
+  el alcance se lee en la pregunta de cada página: en DG-CMP-004 el conector de
+  la EPS no lleva la insignia de ASR-M02, porque esa página muestra justamente
+  que no cambia. Las insignias no cuentan como estereotipo.
 - **Las medidas.** La tabla de trazabilidad del diagrama general trae medidas de
-  una versión anterior de los escenarios. Los diagramas usan las de la
+  una versión anterior de los escenarios, varias por ASR. La tabla de cada
+  página trae una sola medida por ASR, la de la
   [página de escenarios](../quality-attributes.md).
 
 ## Huecos y diagramas pendientes
@@ -116,14 +120,20 @@ S: la decisión satisface el escenario. C: contribuye.
   no se conoce hasta la debida diligencia.
 - **Los productos y protocolos del despliegue** (broker, contenedores, «AMQP»,
   «SQL») son supuestos hasta que el prototipo los fije.
+- `[PREGUNTA]` **La medida de ASR-I01.** Su ficha trae dos medidas: 0
+  componentes existentes modificados, con 1 contrato nuevo, y ≤ 500 h-h. Un ASR
+  lleva una sola medida, así que la tabla de cada página usa la de ≤ 500 h-h, que
+  es la del enunciado corto. Falta decidir si la de 0 componentes pasa a ser un
+  ASR hermano o una nota de la ficha.
 
 ## Validación
 
 | Puerta | Resultado |
 |---|---|
 | Sintaxis del Mermaid de paridad (mmdc 12.0.0) | 26 de 26 compilan |
-| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`) | 0 errores en 26 diagramas |
-| Paridad entre el Mermaid y cada `.drawio` | 0 diferencias en las cuatro vistas |
+| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`, plugin `arquitectura` 1.13.0) | 0 errores en 26 diagramas |
+| Leyenda, tabla de trazabilidad e insignias en cada página (TRAZ, ALC) | 0 errores en las 26 páginas |
+| Paridad entre el Mermaid y cada `.drawio`, insignias incluidas | 0 diferencias en las cuatro vistas |
 | Congruencia del layout (B6') | En 0 en todas las páginas |
 
 Los avisos que quedan están justificados:
@@ -132,10 +142,13 @@ Los avisos que quedan están justificados:
   blanca de validación (DG-CST-002) tiene 13, por encima de 12. El panorama
   muestra el sistema entero, y la caja blanca necesita los cuatro roles del
   modelo canónico.
-- **Proporción.** DG-CMP-002 sale a 2,85:1, por encima de 2,5:1; ninguna partición
+- **Proporción.** DG-CMP-002 sale a 2,70:1, por encima de 2,5:1; ninguna partición
   la mejora sin romper la congruencia.
-- **Cruces.** DG-CMP-003 tiene tres y DG-DEP-001 tiene dos. El emisor no los
-  evita en ninguna de las disposiciones que probó.
+- **Cruces.** DG-CMP-003 tiene tres, DG-DEP-001 dos y DG-CMP-002 uno, el del
+  ancla de su nota. El emisor no los evita en ninguna de las disposiciones que
+  probó.
+- **Retorno.** En DG-CON-002, la publicación del hilo de lectura vuelve contra el
+  flujo hacia el tema canónico. Es preferencia de lectura y no bloquea.
 - **Sin `eclosionar`.** DG-CMP-004 no lo declara, porque el conector de la IPS
   tiene la estructura del de turismo.
 - **Equipo sin elemento estructural.** La línea de vida del equipo en DG-SEQ-003

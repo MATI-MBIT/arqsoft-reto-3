@@ -21,6 +21,11 @@ Las decisiones que estos diagramas dibujan están en el
 {: .nota }
 > Los diagramas son **vigentes**: sus ADR están aceptados. La fuente es `drawio/Reto3-Vista-Concurrencia.drawio`.
 
+**Abrir en draw.io:** [Reto3-Vista-Concurrencia.drawio](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio), con las 3 páginas de la vista,
+en el visor de app.diagrams.net. Cada diagrama tiene además su enlace directo
+bajo la imagen. La fuente versionada está en [`drawio/Reto3-Vista-Concurrencia.drawio`](drawio/Reto3-Vista-Concurrencia.drawio);
+un cambio se hace ahí y se reexporta el PNG.
+
 ## Leyenda
 
 | Símbolo | Qué significa |
@@ -32,10 +37,15 @@ Las decisiones que estos diagramas dibujan están en el
 | `{guarded}` | Un recurso compartido cuyo acceso se protege |
 | Flecha con rótulo | El mensaje que un objeto le envía a otro; en `consumir()` y `leer()`, la flecha va hacia la cola o el dato que se lee |
 | `«tactic» {id = …, variante = …}` | La táctica del catálogo del curso que ese objeto implementa |
+| Insignia rellena con el ID de un ASR | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio |
+| Insignia de contorno punteado | El elemento **participa** en la respuesta de ese ASR sin modificarse |
+| Tabla bajo cada diagrama | La trazabilidad de la página: por ASR, su atributo, qué es artefacto, qué participa, la táctica y la medida del [escenario de calidad](../quality-attributes.md) |
 
 ## DG-CON-001 · Lo que corre en paralelo
 
 ![DG-CON-001 · conectores, bus y consumidores en paralelo](png/14-DG-CON-001.png)
+
+[Abrir DG-CON-001 en draw.io](https://app.diagrams.net/?page-id=dg-con-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio)
 
 **Qué muestra.** Ocho procesos de conector, uno por empresa, más el de turismo,
 publican en el tema canónico sin coordinarse entre sí. El motor lo consume con
@@ -56,6 +66,8 @@ fuera de este reto.
 ## DG-CON-002 · El reproceso compite con lo nuevo
 
 ![DG-CON-002 · reproceso de la cuarentena y lectura de lo nuevo](png/15-DG-CON-002.png)
+
+[Abrir DG-CON-002 en draw.io](https://app.diagrams.net/?page-id=dg-con-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio)
 
 **Qué muestra.** Dentro del conector de la IPS corren dos hilos. La lectura trae
 los registros nuevos y rechaza a la cuarentena los que no cumplen el contrato. El
@@ -78,6 +90,8 @@ los huecos de [diagramas](diagramas.md).
 ## DG-CON-003 · Cambio de versión a mitad de un lote
 
 ![DG-CON-003 · qué se sincroniza cuando cambia la versión activa](png/16-DG-CON-003.png)
+
+[Abrir DG-CON-003 en draw.io](https://app.diagrams.net/?page-id=dg-con-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio)
 
 **Qué muestra.** Dos flujos que comparten un solo recurso, la versión activa en
 memoria. El configurador, en su propio hilo, lee la configuración, valida la

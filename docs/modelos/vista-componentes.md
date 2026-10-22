@@ -26,6 +26,11 @@ cuatro vistas, en [diagramas](diagramas.md).
 > Los diagramas son **vigentes**: sus ADR están aceptados. La fuente de cada uno es su página en
 > `drawio/Reto3-Vista-Componentes.drawio`; la imagen se exporta desde ahí.
 
+**Abrir en draw.io:** [Reto3-Vista-Componentes.drawio](https://app.diagrams.net/#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio), con las 13 páginas de la vista,
+en el visor de app.diagrams.net. Cada diagrama tiene además su enlace directo
+bajo la imagen. La fuente versionada está en [`drawio/Reto3-Vista-Componentes.drawio`](drawio/Reto3-Vista-Componentes.drawio);
+un cambio se hace ahí y se reexporta el PNG.
+
 ## Leyenda
 
 | Símbolo | Qué significa |
@@ -40,10 +45,15 @@ cuatro vistas, en [diagramas](diagramas.md).
 | `{control = …}` | Cuánto controla la holding al socio: bajo control (sus empresas) o fuera de control (una compañía adquirida) |
 | `{distancia = …}`, `{binding = …}`, `{contract = …, v = …}` | Qué distancia de integración cierra la táctica, en qué momento se liga lo que cambia y contra qué versión del contrato se valida |
 | Nota con la esquina doblada | La decisión y su precio, o la medida del escenario |
+| Insignia rellena con el ID de un ASR | El elemento es **artefacto** de ese ASR: ahí se aplica la táctica o se hace el cambio |
+| Insignia de contorno punteado | El elemento **participa** en la respuesta de ese ASR sin modificarse |
+| Tabla bajo cada diagrama | La trazabilidad de la página: por ASR, su atributo, qué es artefacto, qué participa, la táctica y la medida del [escenario de calidad](../quality-attributes.md) |
 
 ## DG-CMP-001 · Panorama de la plataforma
 
 ![DG-CMP-001 · panorama de la plataforma](png/01-DG-CMP-001.png)
+
+[Abrir DG-CMP-001 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** Los cinco subsistemas de la plataforma y los temas que los unen.
 La integración lee los sistemas de las empresas del grupo y de la compañía de
@@ -71,6 +81,8 @@ repositorio que el núcleo provee.
 
 ![DG-CMP-002 · integrar la compañía de turismo](png/02-DG-CMP-002.png)
 
+[Abrir DG-CMP-002 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** El conector de turismo entra como un componente nuevo. Requiere
 el API de reservas del socio, realiza el mismo puerto común que los conectores
 de las empresas del grupo y publica en el tema canónico que ya existe. Nada de lo
@@ -86,6 +98,8 @@ los conectores existentes se dibuja uno; los otros tres realizan el mismo puerto
 ### DG-CST-001 · El conector de turismo por dentro: leer y traducir
 
 ![DG-CST-001 · caja blanca del conector de turismo, leer y traducir](png/03-DG-CST-001.png)
+
+[Abrir DG-CST-001 en draw.io](https://app.diagrams.net/?page-id=dg-cst-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** El puerto `target` ofrece el puerto común; el puerto `adaptee`
 es el único que conoce el API del socio. La parte que lo usa
@@ -103,6 +117,8 @@ cierra las distancias (INT-01).
 
 ![DG-SEQ-001 · secuencia interna del conector de turismo](png/04-DG-SEQ-001.png)
 
+[Abrir DG-SEQ-001 en draw.io](https://app.diagrams.net/?page-id=dg-seq-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** El recorrido de una reserva por las partes del conector hasta
 el validador. Una reserva confirmada se entrega como venta y producto adquirido;
 una cancelada y reembolsada, como venta revertida.
@@ -119,6 +135,8 @@ escribe para integrar turismo es este conector (≤ 500 h-h).
 
 ![DG-CMP-003 · contrato canónico en el borde](png/05-DG-CMP-003.png)
 
+[Abrir DG-CMP-003 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** Cada conector valida lo que traduce contra la versión vigente
 del contrato, que guarda el registro de contratos canónicos. Lo que cumple va al
 tema canónico, al que se suscribe el motor; lo que no, a la cuarentena con su
@@ -133,6 +151,8 @@ cada empresa. El precio es negociar y versionar el contrato.
 ### DG-CST-002 · El conector de turismo por dentro: validar y publicar
 
 ![DG-CST-002 · caja blanca del conector de turismo, validar y publicar](png/06-DG-CST-002.png)
+
+[Abrir DG-CST-002 en draw.io](https://app.diagrams.net/?page-id=dg-cst-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** El traductor entrega el evento al validador
 (`contractValidator`), que lo compara con la copia del contrato
@@ -178,6 +198,8 @@ rol `MessageTranslator` del modelo canónico: hay uno por fuente.
 
 ![DG-SEQ-002 · secuencia interna de la validación](png/07-DG-SEQ-002.png)
 
+[Abrir DG-SEQ-002 en draw.io](https://app.diagrams.net/?page-id=dg-seq-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** El validador pide a la copia del contrato el tipo, la unidad, la
 moneda y los códigos del dominio. Si el evento cumple, se publica con la versión
 del contrato; si trae un monto en otra unidad o un código que el contrato no
@@ -196,6 +218,8 @@ canónico con un significado distinto del que le dio su empresa. La medida es
 
 ![DG-CMP-004 · el cambio de códigos de una IPS](png/08-DG-CMP-004.png)
 
+[Abrir DG-CMP-004 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-004#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** La IPS publica la versión 2 de su interfaz con códigos nuevos.
 El único componente que la conoce es su conector; el conector de la EPS, el motor
 y la consolidación siguen hablando en términos canónicos. El cambio afecta un
@@ -211,6 +235,8 @@ otra vez.
 ### DG-SEQ-003 · La IPS cambia sus códigos
 
 ![DG-SEQ-003 · secuencia del cambio de códigos](png/09-DG-SEQ-003.png)
+
+[Abrir DG-SEQ-003 en draw.io](https://app.diagrams.net/?page-id=dg-seq-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** Antes del ajuste, los registros con códigos sin equivalencia van
 a la cuarentena. El equipo despliega el mapeo nuevo en el conector de la IPS, y
@@ -228,6 +254,8 @@ anunció; eso es disponibilidad y queda fuera de este reto.
 ### DG-CMP-005 · Quién publica y quién reacciona
 
 ![DG-CMP-005 · temas y coreografía](png/10-DG-CMP-005.png)
+
+[Abrir DG-CMP-005 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-005#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** Los conectores publican en el tema canónico sin saber quién lo
 lee. El motor se suscribe, interpreta y publica el registro consolidado, al que
@@ -250,6 +278,8 @@ publica (consistencia eventual), y el flujo completo no vive en un solo lugar.
 
 ![DG-CMP-006 · motor de interpretación y estrategias](png/11-DG-CMP-006.png)
 
+[Abrir DG-CMP-006 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-006#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
+
 **Qué muestra.** El motor requiere la interfaz `IReglaInterpretacion`, que
 realizan las versiones del catálogo de reglas, y lee de la configuración de
 reglas cuál opera para cada empresa. La dirección de analítica activa o revierte
@@ -265,6 +295,8 @@ la caja blanca.
 ### DG-CST-003 · El motor por dentro
 
 ![DG-CST-003 · caja blanca del motor](png/12-DG-CST-003.png)
+
+[Abrir DG-CST-003 en draw.io](https://app.diagrams.net/?page-id=dg-cst-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** El configurador lee la configuración de reglas, valida la
 activación nueva y reemplaza una copia en memoria de la versión activa. El
@@ -288,6 +320,8 @@ implementa MOD-09; cambiar de versión no reinicia ni redespliega el motor.
 ### DG-SEQ-004 · Activar y revertir el algoritmo
 
 ![DG-SEQ-004 · secuencia interna del motor](png/13-DG-SEQ-004.png)
+
+[Abrir DG-SEQ-004 en draw.io](https://app.diagrams.net/?page-id=dg-seq-004#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** La dirección de analítica activa la versión 2 para los ingresos
 de una IPS. Si la configuración es válida, el configurador la aplica; si no, se
