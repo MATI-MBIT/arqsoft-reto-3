@@ -9,15 +9,16 @@ parent: Modelos
 ## Cómo leer esta página
 
 Esta vista responde **qué piezas tiene la plataforma y cómo se comunican**. Abre
-con el panorama, que sigue los subsistemas del diagrama de arquitectura general
-del equipo, y sigue con un acercamiento por táctica: el conector por fuente
+con la arquitectura general, que es el diagrama de componentes del equipo
+(`drawio/Reto3-Arquitectura-General-v2.drawio`) en notación UML, y sigue con un
+acercamiento por táctica que usa sus mismos nombres: el conector por fuente
 (INT-01), el contrato canónico en el borde (INT-04), el cambio contenido en un
-conector (MOD-03), los temas y la coreografía (MOD-04 e INT-09) y las estrategias
+conector (MOD-03), los tópicos y la coreografía (MOD-04 e INT-09) y las estrategias
 de interpretación con su versión activa (MOD-03 y MOD-09).
 
 Dos componentes sostienen los escenarios y se abren hasta su caja blanca y su
-secuencia interna: el conector de la compañía de turismo y el motor de
-interpretación. La caja blanca del conector va en dos diagramas, uno por
+secuencia interna: el conector empresa N, que integra a la compañía de turismo,
+y el motor de interpretación. La caja blanca del conector va en dos diagramas, uno por
 pregunta: cómo lee y traduce, y cómo valida y publica. Las decisiones que estos
 diagramas dibujan están en el [registro de ADR](adrs.md), y el índice de las
 cuatro vistas, en [diagramas](diagramas.md).
@@ -35,9 +36,10 @@ un cambio se hace ahí y se reexporta el PNG.
 
 | Símbolo | Qué significa |
 |---|---|
-| Caja con el ícono de componente | Un componente UML. «external» es un sistema de otra empresa; «subsystem», un grupo de componentes; «COTS», un producto que se compra y no se construye |
+| Caja con el ícono de componente | Un componente UML. «external» es un sistema de otra empresa. El segundo estereotipo es el del diagrama general: «adaptador», «bus de mensajes», «cola», «almacén», «plug-in», «registro» |
+| Carpeta | Un paquete del diagrama general: un grupo de componentes con una misma responsabilidad |
 | Círculo y semicírculo | Interfaz provista (círculo) y requerida (semicírculo) |
-| Caja con «event» | Un tema del bus: quien publica no conoce a quien se suscribe |
+| Caja con «event» | Un tópico del bus de eventos canónicos: quien publica no conoce a quien se suscribe. Fuera del general, el bus se dibuja así, como sus tópicos |
 | Cuadrado sobre el borde | Un puerto de la caja blanca; la flecha «delegate» lleva lo que entra o sale hasta la parte que lo atiende |
 | `rol : Tipo` | Una parte de la caja blanca: el rol que juega en la táctica y el tipo del dominio que lo cumple |
 | Elipse punteada | El uso de una táctica dentro del componente; sus líneas punteadas, rotuladas, ligan cada rol a la parte o al puerto que lo juega |
@@ -49,43 +51,52 @@ un cambio se hace ahí y se reexporta el PNG.
 | Insignia de contorno punteado | El elemento **participa** en la respuesta de ese ASR sin modificarse |
 | Tabla bajo cada diagrama | La trazabilidad de la página: por ASR, su atributo, qué es artefacto, qué participa, la táctica y la medida del [escenario de calidad](../quality-attributes.md) |
 
-## DG-CMP-001 · Panorama de la plataforma
+## DG-CMP-001 · Arquitectura general
 
-![DG-CMP-001 · panorama de la plataforma](png/01-DG-CMP-001.png)
+![DG-CMP-001 · arquitectura general de la plataforma](png/01-DG-CMP-001.png)
 
 [Abrir DG-CMP-001 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
-**Qué muestra.** Los cinco subsistemas de la plataforma y los temas que los unen.
-La integración lee los sistemas de las empresas del grupo y de la compañía de
-turismo, valida contra el registro de contratos del gobierno de la integración y
-publica en dos temas: el registro canónico, con un tópico por cada uno de los
-siete dominios, y la cuarentena. El núcleo de datos unificados se suscribe al
-primero y publica el registro consolidado. La analítica reacciona a ese registro
-y lee el repositorio unificado, y la presentación consulta a la analítica.
+**Qué muestra.** El diagrama general del equipo, con su misma disposición. Seis
+paquetes dentro de la plataforma. La integración tiene un conector por empresa:
+EPS, IPS, Prepagada, Seguros y el conector empresa N para la compañía adquirida.
+Cada conector lee su sistema y publica por `IPublicarEvento` en el bus de eventos
+canónicos, que manda a la cuarentena lo que no cumple el contrato. El gobierno
+de la integración guarda los contratos en el registro de conectores y contratos.
+El núcleo tiene el motor de interpretación, que se suscribe al bus y usa los
+datos maestros, el catálogo de reglas, la configuración de reglas y el
+repositorio unificado, cada uno por su interfaz. La analítica y la presentación
+consumen lo consolidado. El analista de datos cambia la configuración de reglas,
+y el directivo consulta el portal.
 
-**Decisión que refleja.** [ADR-003](adrs.md): el bus con un tema por dominio
-desacopla a quien publica de quien consume (MOD-04), y los consumidores
-reaccionan al registro consolidado sin que nadie los llame (INT-09).
+**Decisiones que refleja.** Las cuatro, cada una en su nota:
+[ADR-001](adrs.md) el modelo canónico detrás de cada conector, [ADR-002](adrs.md)
+el contrato explícito con cuarentena, [ADR-003](adrs.md) la coreografía sobre el
+bus y [ADR-004](adrs.md) las reglas como estrategias. La quinta nota es la
+contención del cambio de ASR-M02.
 
-**Qué no muestra.** Los componentes dentro de cada subsistema; los abren los
-diagramas siguientes. El bus del diagrama general aparece aquí como sus temas,
-porque en una vista lógica el broker no se dibuja: va en el despliegue.
+**Qué no muestra.** Cómo funciona cada pieza por dentro; lo muestran los
+acercamientos siguientes, uno por táctica.
 
-**Retorno declarado.** La arista que vuelve hacia `IRepositorioUnificado` cierra
-un ciclo real: el núcleo publica el consolidado, la analítica reacciona y lee el
-repositorio que el núcleo provee.
+**Excepción declarada.** Este diagrama no cumple el presupuesto visual de la
+skill de diagramas, y es a propósito: reproduce entero el diagrama general del
+equipo. Tiene 44 elementos donde la skill bloquea por encima de 20, cinco notas
+largas donde admite tres de 160 caracteres, el bus dibujado como componente con
+siete conexiones a `IPublicarEvento` y la troncal compartida de los conectores
+del original. Los demás diagramas sí cumplen.
 
-## Integrar la compañía de turismo (INT-01 · ASR-I01)
+## Integrar la empresa N, una compañía de turismo (INT-01 · ASR-I01)
 
 ### DG-CMP-002 · Qué se agrega y qué no se toca
 
-![DG-CMP-002 · integrar la compañía de turismo](png/02-DG-CMP-002.png)
+![DG-CMP-002 · integrar la empresa N](png/02-DG-CMP-002.png)
 
 [Abrir DG-CMP-002 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
-**Qué muestra.** El conector de turismo entra como un componente nuevo. Requiere
-el API de reservas del socio, realiza el mismo puerto común que los conectores
-de las empresas del grupo y publica en el tema canónico que ya existe. Nada de lo
+**Qué muestra.** El conector empresa N entra como un componente nuevo. Requiere
+el API de reservas de la compañía de turismo, realiza el mismo puerto común que
+los conectores de las empresas del grupo y publica en los eventos canónicos que
+ya existen. Nada de lo
 existente cambia de forma.
 
 **Decisión que refleja.** [ADR-001](adrs.md), un conector por fuente tras un
@@ -95,9 +106,9 @@ sintáctica, semántica en datos y semántica en comportamiento.
 **Qué no muestra.** Cómo se traduce cada campo; lo muestra la caja blanca. De
 los conectores existentes se dibuja uno; los otros tres realizan el mismo puerto.
 
-### DG-CST-001 · El conector de turismo por dentro: leer y traducir
+### DG-CST-001 · El conector empresa N por dentro: leer y traducir
 
-![DG-CST-001 · caja blanca del conector de turismo, leer y traducir](png/03-DG-CST-001.png)
+![DG-CST-001 · caja blanca del conector empresa N, leer y traducir](png/03-DG-CST-001.png)
 
 [Abrir DG-CST-001 en draw.io](https://app.diagrams.net/?page-id=dg-cst-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
@@ -113,9 +124,9 @@ cierra las distancias (INT-01).
 
 **Qué no muestra.** Qué hace el validador; sigue en DG-CST-002.
 
-### DG-SEQ-001 · El primer lote de turismo
+### DG-SEQ-001 · El primer lote de la empresa N
 
-![DG-SEQ-001 · secuencia interna del conector de turismo](png/04-DG-SEQ-001.png)
+![DG-SEQ-001 · secuencia interna del conector empresa N](png/04-DG-SEQ-001.png)
 
 [Abrir DG-SEQ-001 en draw.io](https://app.diagrams.net/?page-id=dg-seq-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
@@ -138,8 +149,8 @@ escribe para integrar turismo es este conector (≤ 500 h-h).
 [Abrir DG-CMP-003 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
 **Qué muestra.** Cada conector valida lo que traduce contra la versión vigente
-del contrato, que guarda el registro de contratos canónicos. Lo que cumple va al
-tema canónico, al que se suscribe el motor; lo que no, a la cuarentena con su
+del contrato, que guarda el registro de conectores y contratos. Lo que cumple va
+a los eventos canónicos, a los que se suscribe el motor; lo que no, a la cuarentena con su
 causa.
 
 **Decisión que refleja.** [ADR-002](adrs.md): el modelo canónico declarado en un
@@ -148,9 +159,9 @@ cada empresa. El precio es negociar y versionar el contrato.
 
 **Qué no muestra.** Cómo valida el conector por dentro; lo muestra DG-CST-002.
 
-### DG-CST-002 · El conector de turismo por dentro: validar y publicar
+### DG-CST-002 · El conector empresa N por dentro: validar y publicar
 
-![DG-CST-002 · caja blanca del conector de turismo, validar y publicar](png/06-DG-CST-002.png)
+![DG-CST-002 · caja blanca del conector empresa N, validar y publicar](png/06-DG-CST-002.png)
 
 [Abrir DG-CST-002 en draw.io](https://app.diagrams.net/?page-id=dg-cst-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
@@ -167,24 +178,24 @@ rol `MessageTranslator` del modelo canónico: hay uno por fuente.
 
 **Qué no muestra.** Cómo se lee el sistema del socio; lo muestra DG-CST-001.
 
-**Ficha de eclosión del conector de turismo** (las dos cajas blancas).
+**Ficha de eclosión del conector empresa N** (las dos cajas blancas).
 
 | Parte | Rol | Estado que guarda | Táctica |
 |---|---|---|---|
-| `hiddenImplementation : ClienteReservas` | Lee el sistema de reservas y esconde su API | Marca de la última lectura | MOD-03 |
-| `adapter : TraductorTurismo` | Traduce cada reserva al modelo canónico | Ninguno | INT-01; `MessageTranslator` de INT-04 |
-| `mapeo : MapeoTurismo` | Equivalencias de campos, códigos, moneda y estados | La tabla de equivalencias | — |
+| `hiddenImplementation : ClienteEmpresaN` | Lee el sistema de reservas y esconde su API | Marca de la última lectura | MOD-03 |
+| `adapter : TraductorEmpresaN` | Traduce cada reserva al modelo canónico | Ninguno | INT-01; `MessageTranslator` de INT-04 |
+| `mapeo : MapeoEmpresaN` | Equivalencias de campos, códigos, moneda y estados | La tabla de equivalencias | — |
 | `contractValidator : ValidadorContrato` | Valida el evento contra el contrato; viaja en el kit común de los conectores | Ninguno | INT-04 |
 | `canonicalDataModel : CopiaContrato` | Copia de la versión vigente del contrato | La versión en caché | — |
-| `messageEndpoint : PublicadorCanonico` | Publica en el tema canónico o en la cuarentena | Ninguno | MOD-04 |
+| `messageEndpoint : PublicadorCanonico` | Publica en los eventos canónicos o en la cuarentena | Ninguno | MOD-04 |
 
 | Puerto | Interfaz | Rol |
 |---|---|---|
 | `target` | provee `IConectorFuente` | `ProvidedInterface` de MOD-03 y `Target` de INT-01 |
 | `adaptee` | requiere `IAPIReservas` | `HiddenDependency` de MOD-03 y `Adaptee` de INT-01 |
 | `contract` | requiere `IRegistroContratos` | `Contract` de INT-04 |
-| `channel` | publica `registro.canónico` | `Channel` de MOD-04 |
-| `pCuarentena` | publica `cuarentena` | — |
+| `channel` | publica `Eventos canónicos` | `Channel` de MOD-04 |
+| `pCuarentena` | publica en la `Cuarentena` | — |
 
 | Distancia | Cómo la cierra el contrato |
 |---|---|
@@ -205,8 +216,8 @@ moneda y los códigos del dominio. Si el evento cumple, se publica con la versi�
 del contrato; si trae un monto en otra unidad o un código que el contrato no
 reconoce, se rechaza con su causa y su campo, y va a la cuarentena.
 
-**Decisión que refleja.** [ADR-002](adrs.md): ningún registro llega al tema
-canónico con un significado distinto del que le dio su empresa. La medida es
+**Decisión que refleja.** [ADR-002](adrs.md): ningún registro llega a los
+eventos canónicos con un significado distinto del que le dio su empresa. La medida es
 ≤ 80 h-h por empresa, con ≥ 99 % interpretado (S-9).
 
 **Qué no muestra.** Quién revisa la cuarentena; es una pregunta abierta del
@@ -229,7 +240,7 @@ solo componente.
 escondida dentro de su conector (MOD-03).
 
 **Qué no muestra.** El interior del conector de la IPS. Tiene la misma
-estructura que el de turismo (DG-CST-001 y DG-CST-002), y por eso no se abre
+estructura que el conector empresa N (DG-CST-001 y DG-CST-002), y por eso no se abre
 otra vez.
 
 ### DG-SEQ-003 · La IPS cambia sus códigos
@@ -249,22 +260,22 @@ medida es ≤ 16 h-h desde el anuncio.
 **Qué no muestra.** Cómo se entera la holding de un cambio que la empresa no
 anunció; eso es disponibilidad y queda fuera de este reto.
 
-## Temas y coreografía (MOD-04, INT-09 · ASR-I01, ASR-M02)
+## Tópicos y coreografía (MOD-04, INT-09 · ASR-I01, ASR-M02)
 
 ### DG-CMP-005 · Quién publica y quién reacciona
 
-![DG-CMP-005 · temas y coreografía](png/10-DG-CMP-005.png)
+![DG-CMP-005 · tópicos y coreografía](png/10-DG-CMP-005.png)
 
 [Abrir DG-CMP-005 en draw.io](https://app.diagrams.net/?page-id=dg-cmp-005#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
-**Qué muestra.** Los conectores publican en el tema canónico sin saber quién lo
-lee. El motor se suscribe, interpreta y publica el registro consolidado, al que
+**Qué muestra.** Los conectores publican en los eventos canónicos sin saber quién
+los lee. El motor se suscribe, interpreta y publica el `RegistroUnificado`, al que
 reaccionan la consolidación financiera y la venta cruzada, cada una por su
 cuenta. Nadie dirige el flujo.
 
-**Decisión que refleja.** [ADR-003](adrs.md): el tema hace de intermediario
+**Decisión que refleja.** [ADR-003](adrs.md): el bus, con un tópico por dominio, hace de intermediario
 (MOD-04, publicar-suscribir), y los consumidores reaccionan a eventos en lugar de
-ser llamados (INT-09). Un conector nuevo publica en temas que ya existen.
+ser llamados (INT-09). Un conector nuevo publica en tópicos que ya existen.
 
 **Precio que se ve.** La vista unificada se pone al día después de que la fuente
 publica (consistencia eventual), y el flujo completo no vive en un solo lugar.
@@ -282,8 +293,8 @@ publica (consistencia eventual), y el flujo completo no vive en un solo lugar.
 
 **Qué muestra.** El motor requiere la interfaz `IReglaInterpretacion`, que
 realizan las versiones del catálogo de reglas, y lee de la configuración de
-reglas cuál opera para cada empresa. La dirección de analítica activa o revierte
-cambiando ese dato, y cada cambio queda en la bitácora.
+reglas cuál opera para cada empresa. El analista de datos activa o revierte
+cambiando ese dato, y la configuración guarda quién y cuándo.
 
 **Decisión que refleja.** [ADR-004](adrs.md): la interfaz estable y versionada
 separa al motor de cada algoritmo (MOD-03, variante API estable versionada), y
@@ -312,7 +323,7 @@ implementa MOD-09; cambiar de versión no reinicia ni redespliega el motor.
 
 | Parte | Rol | Estado que guarda | Táctica |
 |---|---|---|---|
-| `receptor : ReceptorEventos` | Recibe los eventos del tema canónico | Ninguno | — |
+| `receptor : ReceptorEventos` | Recibe los eventos canónicos | Ninguno | — |
 | `interprete : InterpreteRegistro` | Toma la versión activa y aplica la regla | Ninguno | — |
 | `configuration : VersionActiva` | Copia en memoria de la versión activa por empresa y dominio | La activación vigente | — |
 | `configurator : ConfiguradorReglas` | Lee, valida y recarga la configuración | Ninguno | MOD-09 |
@@ -323,7 +334,7 @@ implementa MOD-09; cambiar de versión no reinicia ni redespliega el motor.
 
 [Abrir DG-SEQ-004 en draw.io](https://app.diagrams.net/?page-id=dg-seq-004#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Componentes.drawio)
 
-**Qué muestra.** La dirección de analítica activa la versión 2 para los ingresos
+**Qué muestra.** El analista de datos activa la versión 2 para los ingresos
 de una IPS. Si la configuración es válida, el configurador la aplica; si no, se
 conserva la versión 1. Un evento de esa IPS se interpreta con la versión 2, y al
 revertir vuelve la 1, sin un despliegue de por medio.
@@ -339,10 +350,10 @@ versión nueva, no en desplegar.
 
 | Táctica | ADR | Dónde se ve |
 |---|---|---|
-| INT-01 Wrapper (adaptador) · interfaz común | ADR-001 | Conector de turismo (DG-CMP-002) y su traductor (DG-CST-001) |
+| INT-01 Wrapper (adaptador) · interfaz común | ADR-001 | Conector empresa N (DG-CMP-002) y su traductor (DG-CST-001) |
 | MOD-03 Encapsular · ocultar interfaces que no aplican | ADR-001 | Parte que esconde el API del socio (DG-CST-001); conector de la IPS (DG-CMP-004) |
 | INT-04 Contrato de interfaz explícito · modelo canónico | ADR-002 | Conectores (DG-CMP-003) y su validador (DG-CST-002) |
-| MOD-04 Usar intermediarios · publicar-suscribir | ADR-003 | Tema canónico (DG-CMP-001, DG-CMP-005) y punto de publicación del conector (DG-CST-002) |
-| INT-09 Coreografía | ADR-003 | Núcleo (DG-CMP-001); motor, consolidación y venta cruzada (DG-CMP-005) |
+| MOD-04 Usar intermediarios · publicar-suscribir | ADR-003 | Bus de eventos canónicos (DG-CMP-001), sus tópicos (DG-CMP-005) y el punto de publicación del conector (DG-CST-002) |
+| INT-09 Coreografía | ADR-003 | Nota de coreografía (DG-CMP-001); motor, consolidación y venta cruzada (DG-CMP-005) |
 | MOD-03 Encapsular · API estable versionada | ADR-004 | Catálogo de reglas tras `IReglaInterpretacion` (DG-CMP-006) |
 | MOD-09 Ligado en configuración · ejecución | ADR-004 | Motor (DG-CMP-006) y su configurador (DG-CST-003) |

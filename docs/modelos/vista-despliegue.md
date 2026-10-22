@@ -47,13 +47,14 @@ un cambio se hace ahí y se reexporta el PNG.
 [Abrir DG-DEP-001 en draw.io](https://app.diagrams.net/?page-id=dg-dep-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Despliegue.drawio)
 
 **Qué muestra.** Cada conector corre en su propio contenedor: hay ocho para las
-empresas del grupo y uno para la compañía de turismo. Los de las empresas leen
+empresas del grupo y uno para el conector empresa N, la compañía de turismo. Los de las empresas leen
 sus sistemas por la interfaz que cada una publica: REST, SOAP, captura de
-cambios o archivos por SFTP. Todos publican en el broker, que aloja los tópicos
-por dominio, el consolidado y la cuarentena. El núcleo corre el motor, el
-catálogo de reglas y los datos maestros. El nodo de datos guarda los contratos,
-la configuración, la bitácora y la vista unificada. La analítica y la
-presentación corren en su propio contenedor.
+cambios o archivos por SFTP. Todos publican en el broker, que aloja el bus de eventos
+canónicos y la cuarentena. El núcleo corre el motor de interpretación, los datos
+maestros y el catálogo de reglas. El nodo de datos guarda el registro de
+conectores y contratos, la configuración de reglas y el repositorio unificado.
+La venta cruzada, la consolidación financiera, el API de consultas y el portal
+corren en el contenedor de analítica.
 
 **Decisión que refleja.** [ADR-001](adrs.md), un conector por fuente como unidad
 de despliegue propia; [ADR-003](adrs.md), el broker como intermediario; y
@@ -62,13 +63,13 @@ de despliegue propia; [ADR-003](adrs.md), el broker como intermediario; y
 **Qué no muestra.** La redundancia del broker y del nodo de datos; tolerar su
 caída es disponibilidad y queda fuera de este reto.
 
-## DG-DEP-002 · Qué se despliega al integrar la compañía de turismo
+## DG-DEP-002 · Qué se despliega al integrar la empresa N
 
 ![DG-DEP-002 · despliegue de la integración de turismo](png/25-DG-DEP-002.png)
 
 [Abrir DG-DEP-002 en draw.io](https://app.diagrams.net/?page-id=dg-dep-002#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Despliegue.drawio)
 
-**Qué muestra.** Integrar turismo agrega un contenedor con su conector, que lee
+**Qué muestra.** Integrar la empresa N agrega un contenedor con su conector, que lee
 el sistema de reservas, trae el contrato del nodo de datos y publica en el
 broker. El broker, el núcleo, el nodo de datos y los ocho contenedores de las
 empresas no se redespliegan: es la medida de ASR-I01 vista en el despliegue.
@@ -89,7 +90,7 @@ del que dependen todos.
 repositorio de artefactos. El pipeline publica la versión 2 después de correr el
 banco de pruebas, y el motor la carga desde el repositorio sin redesplegarse.
 Qué versión opera para cada empresa lo dice la configuración de reglas, en el
-nodo de datos, junto con la bitácora.
+nodo de datos, que también guarda quién activó o revirtió y cuándo.
 
 **Qué cambia al activar o revertir.** Solo un dato en la configuración de
 reglas; no se despliega nada.

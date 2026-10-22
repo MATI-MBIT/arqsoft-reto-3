@@ -32,7 +32,7 @@ un cambio se hace ahí y se reexporta el PNG.
 |---|---|
 | Caja con doble barra lateral | Un objeto activo: un proceso («process») o un hilo («thread») con su propio flujo de control |
 | `[8]`, `[1..*]` | Cuántas instancias corren a la vez |
-| Caja con «queue» | Un tema o una cola del bus |
+| Caja con «queue» | Un tópico o una cola del bus de eventos canónicos |
 | Nombre subrayado | Una instancia, en la forma `nombre : Tipo` |
 | `{guarded}` | Un recurso compartido cuyo acceso se protege |
 | Flecha con rótulo | El mensaje que un objeto le envía a otro; en `consumir()` y `leer()`, la flecha va hacia la cola o el dato que se lee |
@@ -47,10 +47,10 @@ un cambio se hace ahí y se reexporta el PNG.
 
 [Abrir DG-CON-001 en draw.io](https://app.diagrams.net/?page-id=dg-con-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio)
 
-**Qué muestra.** Ocho procesos de conector, uno por empresa, más el de turismo,
-publican en el tema canónico sin coordinarse entre sí. El motor lo consume con
+**Qué muestra.** Ocho procesos de conector, uno por empresa, más el conector empresa N,
+publican en los tópicos canónicos sin coordinarse entre sí. El motor lo consume con
 uno o más hilos, cada uno sobre una partición por empresa y dominio, y publica el
-registro consolidado. La consolidación financiera y la venta cruzada lo consumen
+`RegistroUnificado`. La consolidación financiera y la venta cruzada lo consumen
 cada una por su cuenta.
 
 **Qué se sincroniza.** La escritura en la vista unificada es idempotente por
@@ -72,7 +72,7 @@ fuera de este reto.
 **Qué muestra.** Dentro del conector de la IPS corren dos hilos. La lectura trae
 los registros nuevos y rechaza a la cuarentena los que no cumplen el contrato. El
 reproceso, después de ajustar el mapeo, toma los rechazados, los valida de nuevo
-y los publica. Los dos publican en la misma partición del tema canónico, y el
+y los publica. Los dos publican en la misma partición del tópico canónico, y el
 motor los escribe en la vista unificada.
 
 **Qué se sincroniza.** La partición por empresa y dominio ordena lo que publican
@@ -95,7 +95,7 @@ los huecos de [diagramas](diagramas.md).
 
 **Qué muestra.** Dos flujos que comparten un solo recurso, la versión activa en
 memoria. El configurador, en su propio hilo, lee la configuración, valida la
-activación nueva, reemplaza la copia y registra el cambio en la bitácora. Los
+activación nueva, reemplaza la copia, que queda guardada en la configuración de reglas. Los
 hilos del motor leen esa copia mientras consumen eventos.
 
 **Qué se sincroniza.** La versión activa se lee una sola vez por evento, y la

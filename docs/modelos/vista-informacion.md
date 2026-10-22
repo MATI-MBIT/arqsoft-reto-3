@@ -87,8 +87,8 @@ contrato.
 
 [Abrir DG-CLS-003 en draw.io](https://app.diagrams.net/?page-id=dg-cls-003#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Informacion.drawio)
 
-**Qué muestra.** El conector de turismo realiza el puerto común
-`IConectorFuente` y contiene su traductor, que usa el mapeo de turismo. Todo
+**Qué muestra.** El conector empresa N realiza el puerto común
+`IConectorFuente` y contiene su traductor, que usa el mapeo de la empresa N. Todo
 mapeo guarda la versión de la interfaz del socio y tres tablas de equivalencias:
 de campos, de códigos y de estados. La de campos apunta a la definición del
 contrato canónico. La de estados es la que traduce una reserva cancelada como
@@ -147,7 +147,7 @@ si no confirma a tiempo, vuelve a quedar disponible y se entrega de nuevo. Pasad
 el máximo de entregas, el evento se desvía para revisarlo. Como un evento puede
 llegar dos veces, el motor escribe de forma idempotente.
 
-**Decisión que refleja.** [ADR-003](adrs.md): el tema es un canal durable
+**Decisión que refleja.** [ADR-003](adrs.md): cada tópico del bus es un canal durable
 (MOD-04, publicar-suscribir), y lo que se entrega dos veces no duplica el
 registro (NR-003a).
 
