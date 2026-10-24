@@ -19,10 +19,11 @@ en [diagramas](diagramas.md).
 
 | ADR | Título | Estado | Confianza | Iteración | ASRs | Diagramas |
 |---|---|---|---|---|---|---|
-| ADR-001 | Un conector por fuente, tras un puerto común, que traduce al modelo canónico | Aceptada | Media | 1 | ASR-I01, ASR-M02, ASR-I02 | DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-004, DG-SEQ-003, DG-CLS-003, DG-DEP-001, DG-DEP-002 |
+| ADR-001 | Un conector por fuente, tras un puerto común, que traduce al modelo canónico | Reemplazada por ADR-005 | Media | 1 | ASR-I01, ASR-M02, ASR-I02 | DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-004, DG-SEQ-003, DG-CLS-003, DG-DEP-001, DG-DEP-002 |
 | ADR-002 | Contrato canónico versionado, validado en cada conector, con cuarentena para lo que no se interpreta | Aceptada | Media | 1 | ASR-I02, ASR-I01 | DG-CMP-001, DG-SEQ-001, DG-CMP-003, DG-CST-002, DG-SEQ-002, DG-SEQ-003, DG-CON-002, DG-CLS-001, DG-CLS-002, DG-STM-001 |
 | ADR-003 | Bus de eventos con un tópico por dominio canónico entre conectores y consumidores | Aceptada | Alta | 1 | ASR-I01, ASR-M02 | DG-CMP-001, DG-CMP-002, DG-CMP-003, DG-CST-002, DG-SEQ-002, DG-CMP-004, DG-CMP-005, DG-CST-003, DG-CON-001, DG-CON-002, DG-STM-002, DG-DEP-001, DG-DEP-002 |
 | ADR-004 | Algoritmos de interpretación como estrategias, con la versión activa por empresa elegida en configuración que se lee en ejecución | Aceptada | Media | 2 | ASR-M01 | DG-CMP-001, DG-CMP-006, DG-CST-003, DG-SEQ-004, DG-CON-003, DG-CLS-004, DG-STM-003, DG-DEP-001, DG-DEP-003 |
+| ADR-005 | Un conector por línea de negocio del grupo y uno por compañía adquirida, tras un puerto común, con un lector y un mapeo por empresa | Propuesta | Baja | 1 | ASR-I01, ASR-M02, ASR-I02 | DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-004, DG-SEQ-003, DG-CLS-003, DG-CON-001, DG-DEP-001, DG-DEP-002 |
 
 ## 1. Insumos
 
@@ -68,6 +69,7 @@ Los cambios los hace un equipo propio de dos desarrolladores.
 | SUP-02 | supuesto | El bus de mensajes y el registro de contratos son productos existentes, no se construyen | [SUPUESTO] |
 | SUP-03 | supuesto | Cada conector guarda en caché la versión vigente del contrato y sigue validando si el registro no responde | [SUPUESTO] |
 | SUP-04 | supuesto | El motor necesita el orden de los registros dentro de una empresa y un dominio, no entre empresas | [SUPUESTO] |
+| SUP-05 | supuesto | Las tres clínicas y los dos hospitales facturan servicios de salud con la misma semántica (servicio, glosa, pagador), aunque sus sistemas sean distintos | [SUPUESTO] |
 
 ## 2. Catálogo de elementos
 
@@ -75,7 +77,7 @@ Los cambios los hace un equipo propio de dos desarrolladores.
 |---|---|---|---|---|---|---|---|
 | EL-01 | Sistemas de las empresas del grupo | component | «external» {control = tercero-bajo-control} | ERP, callcenter y manejo de clientes de cada una de las ocho empresas | sus propios datos | exento («external») | contexto |
 | EL-02 | Sistema de reservas y facturación de la compañía de turismo | component | «external» {control = tercero-fuera-de-control} | Sistema en producción de otro proveedor, que la holding no modifica | sus propios datos | exento («external») | contexto |
-| EL-03 | Conector de empresa del grupo | component | «adapter» | Lee el sistema de una empresa, traduce sus registros al modelo canónico y los entrega a validar; hay uno por empresa | mapeo de campos y códigos de su empresa; marca de la última lectura | obligatoria | ADR-001 |
+| EL-03 | Conector de empresa del grupo | component | «adapter» | Lee los sistemas de una línea de negocio, traduce sus registros al modelo canónico y los entrega a validar; hay cuatro: EPS, IPS, Prepagada y Seguros, y el de las IPS lleva un lector y un mapeo por clínica u hospital | mapeo de campos y códigos de cada empresa que atiende; marca de la última lectura por empresa | obligatoria | ADR-001, ADR-005 |
 | EL-04 | Conector de la compañía de turismo | component | «adapter» | Lo mismo para el sistema de turismo; es el único componente nuevo de esa integración | mapeo de turismo; marca de la última lectura | obligatoria | ADR-001 |
 | EL-05 | IConectorFuente | interface | «interface» | Puerto común que todo conector realiza: extraer, traducir, publicar e informar su estado | ninguno | no aplica (interfaz) | ADR-001 |
 | EL-06 | Registro de contratos canónicos | datastore | «database» «COTS» | Guarda las versiones del contrato de cada dominio, con tipo, unidad, moneda y códigos válidos de cada campo | versiones de los contratos | exento («COTS») | ADR-002 |
@@ -96,7 +98,7 @@ Los cambios los hace un equipo propio de dos desarrolladores.
 | EL-21 | Dirección de analítica | actor | «external» | Pide el cambio de algoritmo, lo activa y lo revierte | ninguno | exento («external») | contexto |
 | EL-22 | Directivos de XYZ | actor | «external» | Leen los informes | ninguno | exento («external») | contexto |
 | EL-23 | Banco de pruebas de reglas | component | «component» | Corre cada versión de regla contra su lote de referencia antes de publicarla | lotes de referencia por regla | obligatoria | ADR-004 |
-| EL-24 | Contenedor de conector | node | «executionEnvironment» | Ejecuta un conector; hay uno por fuente | ninguno | no aplica (nodo) | ADR-001 |
+| EL-24 | Contenedor de conector | node | «executionEnvironment» | Ejecuta un conector; hay uno por conector | ninguno | no aplica (nodo) | ADR-001 |
 | EL-25 | Nodo de mensajería | node | «executionEnvironment» | Ejecuta el bus y la cuarentena | ninguno | no aplica (nodo) | ADR-003 |
 | EL-26 | Nodo del núcleo | node | «executionEnvironment» | Ejecuta el motor, el configurador, el catálogo de reglas y los datos maestros | ninguno | no aplica (nodo) | ADR-004 |
 | EL-27 | Nodo de datos | node | «executionEnvironment» | Aloja el registro de contratos, la configuración de reglas, la bitácora y el repositorio | ninguno | no aplica (nodo) | contexto |
@@ -146,7 +148,7 @@ Los cambios los hace un equipo propio de dos desarrolladores.
 
 ### ADR-001: Un conector por fuente, tras un puerto común, que traduce al modelo canónico
 
-**Estado:** Aceptada · **Fecha:** 2026-10-20 · **Iteración ADD:** 1 · **Confianza:** Media — el costo de ASR-I01 depende de S-3, que no se ha confirmado
+**Estado:** Reemplazada por ADR-005 · **Fecha:** 2026-10-20 · **Iteración ADD:** 1 · **Confianza:** Media — el costo de ASR-I01 depende de S-3, que no se ha confirmado
 
 #### Contexto
 
@@ -430,14 +432,94 @@ Descartes: B — KO: revertir exige un despliegue, y el ambiente de ASR-M01 pide
 
 **A7. Evidencia visual:** DG-CMP-001, DG-CMP-006, DG-CST-003, DG-SEQ-004, DG-CON-003, DG-CLS-004, DG-STM-003, DG-DEP-001, DG-DEP-003 (detalle en §6)
 
+### ADR-005: Un conector por línea de negocio del grupo y uno por compañía adquirida, tras un puerto común, con un lector y un mapeo por empresa
+
+**Estado:** Propuesta · **Fecha:** 2026-10-24 · **Iteración ADD:** 1 · **Confianza:** Baja — el ahorro depende de SUP-05, que no se ha confirmado y que R-6 pone en duda
+
+#### Contexto
+
+ADR-001 decidió un conector por fuente tras el puerto común IConectorFuente, y el catálogo contó uno por empresa: ocho conectores del grupo. La arquitectura general del equipo los agrupa por línea de negocio: EPS, IPS (tres clínicas y dos hospitales), Prepagada y Seguros. ASR-I02 pide ≤ 80 h-h por empresa para interpretar sus datos, y ASR-M02 pide absorber el cambio de una empresa en ≤ 16 h-h sin que las otras siete cambien. ASR-I01 sigue exigiendo 0 componentes existentes modificados al integrar una compañía adquirida. R-6 dice que cada empresa tiene sistemas propios, distintos entre sí, y S-6 limita el equipo a dos desarrolladores. ¿Con qué granularidad se corta el conector, para que interpretar las cinco IPS no cueste cinco veces lo mismo y el cambio de una no alcance a las demás?
+
+#### Decisión
+
+Construiremos un conector por línea de negocio del grupo, EPS, IPS, Prepagada y Seguros, y uno por cada compañía adquirida, todos tras IConectorFuente y con el API del socio escondido dentro. En el conector de las IPS, cada clínica y cada hospital tiene su propio lector y su propio mapeo, y la traducción al modelo canónico de lo que las cinco comparten, el servicio facturado, la glosa y el pagador, se escribe una sola vez. Lo elegimos porque esa semántica se traduce una vez para cinco empresas, y el cambio del sistema de una IPS sigue quedando en su lector y su mapeo. Esta decisión reemplaza a ADR-001: conserva su puerto común y sus tácticas, y solo cambia cuántos conectores hay.
+
+#### Consecuencias
+
+- (+) ASR-I02: de la segunda IPS en adelante, el costo es su lector y su mapeo; la traducción común ya existe (SUP-05).
+- (+) ASR-I01: una compañía adquirida sigue entrando como un conector nuevo, y ningún componente existente cambia.
+- (+) S-6: cuatro conectores del grupo que operar y versionar, no ocho.
+- (−) ASR-M02: el cambio de una IPS redespliega el conector que comparten las cinco. Los mapeos de las otras cuatro no cambian, pero su lectura se detiene mientras se despliega (R-005a).
+- (−) R-6: si los sistemas de dos IPS difieren en más que sus campos y códigos, la traducción común se llena de excepciones por institución y el ahorro desaparece (R-005b).
+- (−) Un cambio en la traducción común se prueba contra las cinco IPS.
+- (±) ASR-I01 se verifica con juicio de expertos; ASR-I02 y ASR-M02, con experimento (A5).
+
+#### Anexo de trazabilidad
+
+**Y-statement:** En el contexto de una holding con cinco IPS de sistemas distintos y más adquisiciones por venir, frente a ASR-I02, ASR-M02 y ASR-I01, decidimos un conector por línea de negocio del grupo y uno por compañía adquirida, con un lector y un mapeo por empresa, y descartamos un conector por empresa y uno por producto de proveedor para lograr que la semántica de las IPS se traduzca una sola vez, aceptando que el cambio de una IPS redespliegue el conector de las cinco.
+
+**A1. ASRs atendidos**
+
+| ASR | Atributo | Medida | Efecto esperado | Rol |
+|---|---|---|---|---|
+| ASR-I01 | Interoperabilidad | 0 componentes ni interfaces existentes modificados o redesplegados, 1 contrato nuevo, ≤ 500 h-h | satisface | primario |
+| ASR-M02 | Modificabilidad | ≤ 16 h-h desde el anuncio hasta que los datos vuelven a entrar | satisface | primario |
+| ASR-I02 | Interoperabilidad | ≤ 80 h-h por empresa | contribuye | primario |
+
+**A2. Tácticas**
+
+| ID | Patrón | Variante | Táctica (curso) | Familia | Elemento(s) | Estereotipo en diagrama |
+|---|---|---|---|---|---|---|
+| INT-01 | Adapter (GoF), también llamado Wrapper | interfaz-común | Wrapper (adaptador) | Integración · cerrar distancia | EL-03, EL-04, EL-05 | «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento} |
+| MOD-03 | Interfaz provista explícita que oculta un secreto de diseño (ocultamiento de información) · Facade cuando lo oculto es un subsistema o una librería | ocultar-interfaces-que-no-aplican | Encapsular | Modificabilidad · reducir acoplamiento | EL-03, EL-04 | «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo} |
+
+La distancia semántica en datos se cierra en dos niveles dentro del conector de las IPS: el mapeo de cada institución lleva sus campos y códigos a un vocabulario común de las IPS, y la traducción común lo lleva al modelo canónico.
+
+**A3. Alternativas**
+Drivers: ASR-I02 (Alta), ASR-M02 (Alta), ASR-I01 (Alta), R-6, S-6 — fijados antes de evaluar.
+
+| Criterio | Opción A: Conector por línea de negocio, con lector y mapeo por empresa (elegida) | Opción B: Conector por empresa (ADR-001) | Opción C: Conector por producto de proveedor |
+|---|---|---|---|
+| ASR-I01 0 componentes existentes modificados | ++ la compañía adquirida es un conector nuevo | ++ igual | ++ igual, salvo que comparta producto con una empresa del grupo |
+| ASR-I02 ≤ 80 h-h por empresa | + la traducción común de las IPS se escribe una vez | − cada IPS traduce desde cero la misma semántica | + comparten traducción solo las empresas con el mismo producto, que hoy no se conocen |
+| ASR-M02 las otras siete no cambian | − el redespliegue alcanza a las cinco IPS, aunque sus mapeos no cambien | ++ el cambio queda en el conector de esa empresa | − el redespliegue alcanza a las que comparten producto |
+| R-6 sistemas distintos entre sí | − supone que las IPS comparten semántica aunque sus sistemas difieran | + un conector por sistema distinto | + sigue exactamente a R-6 |
+| S-6 dos desarrolladores | + cuatro conectores del grupo | − ocho conectores del grupo | 0 tantos como productos, número que no se conoce |
+
+Descartes: B — cumple los tres ASR, pero traduce cinco veces la semántica de las IPS y deja ocho conectores para dos desarrolladores (S-6); queda como el camino de vuelta si SUP-05 falla. C — no se puede decidir hoy: depende del producto que usa cada empresa, y ese dato no está en el enunciado.
+
+**A4. Sensibilidad, trade-offs y riesgos**
+
+| ID | Tipo | Descripción | Supuesto del que depende |
+|---|---|---|---|
+| S-005a | Sensibilidad | El ahorro en ASR-I02 depende de cuánto de la facturación de las cinco IPS cabe en la traducción común | SUP-05 |
+| R-005a | Riesgo | El redespliegue del conector de las IPS detiene la lectura de las cinco mientras dura | El conector guarda la marca de la última lectura por empresa (EL-03) y retoma desde ella |
+| R-005b | Riesgo | Si las IPS difieren en más que campos y códigos, la traducción común acumula excepciones y conviene volver a un conector por empresa (opción B) | SUP-05, R-6 |
+| TO-005a | Trade-off | Conector por línea de negocio: costo por empresa ▲ (ASR-I02, S-6), aislamiento del cambio entre IPS ▼ (ASR-M02) | SUP-05 |
+| NR-005a | No-riesgo | El cambio de una empresa no alcanza a las otras líneas de negocio | Los conectores no comparten estado entre sí |
+
+**A5. Confirmación**
+
+| Tipo | Qué se prueba | Umbral |
+|---|---|---|
+| Juicio de expertos | Integrar la compañía de turismo sin modificar componentes ni interfaces existentes, con el protocolo de la página de escenarios | ≤ 500 h-h y 0 componentes ni interfaces existentes modificados o redesplegados |
+| Experimento | Integrar dos IPS simuladas con sistemas distintos en el mismo conector, y sumar las h-h de cada una | ≤ 80 h-h por empresa |
+| Experimento | Cambiar los códigos de facturación de una IPS simulada y redesplegar su conector | ≤ 16 h-h, 0 mapeos de las otras cuatro modificados y 0 registros de las otras cuatro perdidos |
+
+**A6. Relaciones:** reemplaza: ADR-001 · refina: — · depende-de: ADR-002 · conflicto-con: —
+
+**A7. Evidencia visual:** DG-CMP-001, DG-CMP-002, DG-CST-001, DG-SEQ-001, DG-CMP-004, DG-SEQ-003, DG-CLS-003, DG-CON-001, DG-DEP-001, DG-DEP-002 (detalle en §6)
+
 ## 5. Matriz ASR × ADR
 
-| ASR | Prioridad | ADR-001 | ADR-002 | ADR-003 | ADR-004 | Hueco |
-|---|---|---|---|---|---|---|
-| ASR-I01 | Alta | S | C | C | — | — |
-| ASR-I02 | Alta | C | S | — | — | — |
-| ASR-M01 | Alta | — | — | — | S | — |
-| ASR-M02 | Alta | S | — | C | — | — |
+| ASR | Prioridad | ADR-001 | ADR-002 | ADR-003 | ADR-004 | ADR-005 | Hueco |
+|---|---|---|---|---|---|---|---|
+| ASR-I01 | Alta | — | C | C | — | S | — |
+| ASR-I02 | Alta | — | S | — | — | C | — |
+| ASR-M01 | Alta | — | — | — | S | — | — |
+| ASR-M02 | Alta | — | — | C | — | S | — |
+
+ADR-001 queda en «—» porque ADR-005 lo reemplaza.
 
 ## 6. Plan de diagramas
 
@@ -445,36 +527,38 @@ Cada vista tiene su página: [componentes](vista-componentes.md), [concurrencia]
 
 | DG | Tipo | Pregunta que responde | ASR | ADR | Elementos | Conectores | Táctica visible | Precio a anotar | Medida visible | Camino de fallo | Vista R&W |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| DG-CMP-001 | componentes | ¿Qué subsistemas tiene la plataforma, y por dónde entra cada fuente hasta la vista unificada? | ASR-I01, ASR-I02, ASR-M01, ASR-M02 | ADR-001, ADR-002, ADR-003, ADR-004 | EL-01, EL-02, EL-30, EL-06, EL-08, EL-09, EL-31, EL-32 | CN-01, CN-02, CN-05, CN-08, CN-09, CN-10, CN-22, CN-20, CN-23 | «tactic» {id = MOD-04, variante = pub-sub}, «tactic» {id = INT-09} | Un conector por fuente que mantener (TO-001a); la vista se pone al día después (ADR-003) | — | no aplica | funcional |
-| DG-CMP-002 | componentes | ¿Qué se agrega, y qué no se toca, al integrar la compañía de turismo? | ASR-I01, ASR-I02 | ADR-001, ADR-003 | EL-02, EL-04, EL-03, EL-05, EL-08 | CN-02, CN-03, CN-04, CN-08 | «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento} | Un conector más que mantener y operar (TO-001a) | 1 componente nuevo · 0 tocados · ≤ 500 h-h | no aplica | funcional |
-| DG-CST-001 | componentes | ¿Cómo lee y traduce el conector de turismo, y dónde queda escondido el API del socio? | ASR-I01, ASR-M02 | ADR-001 | EL-04, EL-05, EL-07 | CN-02, CN-04 | «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo}, «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento} | El mapeo de turismo es un artefacto más que mantener | — | no aplica | funcional |
-| DG-SEQ-001 | secuencia | ¿Cómo entra el primer lote de turismo, y cómo se traduce una reserva cancelada? | ASR-I01, ASR-I02 | ADR-001, ADR-002 | EL-02, EL-04, EL-07 | CN-02, CN-07 | — | Validar cada registro en el borde (TO-002a) | ≤ 500 h-h | sí — reserva cancelada: venta revertida | funcional |
+| DG-CMP-001 | componentes | ¿Qué subsistemas tiene la plataforma, y por dónde entra cada fuente hasta la vista unificada? | ASR-I01, ASR-I02, ASR-M01, ASR-M02 | ADR-001, ADR-005, ADR-002, ADR-003, ADR-004 | EL-01, EL-02, EL-30, EL-06, EL-08, EL-09, EL-31, EL-32 | CN-01, CN-02, CN-05, CN-08, CN-09, CN-10, CN-22, CN-20, CN-23 | «tactic» {id = MOD-04, variante = pub-sub}, «tactic» {id = INT-09} | Un conector por fuente que mantener (TO-001a); la vista se pone al día después (ADR-003) | — | no aplica | funcional |
+| DG-CMP-002 | componentes | ¿Qué se agrega, y qué no se toca, al integrar la compañía de turismo? | ASR-I01, ASR-I02 | ADR-001, ADR-005, ADR-003 | EL-02, EL-04, EL-03, EL-05, EL-08 | CN-02, CN-03, CN-04, CN-08 | «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento} | Un conector más que mantener y operar (TO-001a) | 1 componente nuevo · 0 tocados · ≤ 500 h-h | no aplica | funcional |
+| DG-CST-001 | componentes | ¿Cómo lee y traduce el conector de turismo, y dónde queda escondido el API del socio? | ASR-I01, ASR-M02 | ADR-001, ADR-005 | EL-04, EL-05, EL-07 | CN-02, CN-04 | «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo}, «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento} | El mapeo de turismo es un artefacto más que mantener | — | no aplica | funcional |
+| DG-SEQ-001 | secuencia | ¿Cómo entra el primer lote de turismo, y cómo se traduce una reserva cancelada? | ASR-I01, ASR-I02 | ADR-001, ADR-005, ADR-002 | EL-02, EL-04, EL-07 | CN-02, CN-07 | — | Validar cada registro en el borde (TO-002a) | ≤ 500 h-h | sí — reserva cancelada: venta revertida | funcional |
 | DG-CMP-003 | componentes | ¿Dónde se valida el contrato canónico, y qué pasa con lo que no cumple? | ASR-I02, ASR-I01 | ADR-002, ADR-003 | EL-03, EL-04, EL-06, EL-08, EL-09, EL-10 | CN-05, CN-08, CN-09, CN-10 | «tactic» {id = INT-04, variante = cdm, distancia = sintáctica + semántica-en-datos} | Negociar y versionar el contrato (ADR-002) | nada entra con otro significado | no aplica | funcional |
 | DG-CST-002 | componentes | ¿Cómo valida y publica el conector de turismo lo que traduce? | ASR-I02, ASR-I01 | ADR-002, ADR-003 | EL-04, EL-07, EL-06, EL-08, EL-09 | CN-05, CN-07, CN-08, CN-09 | «tactic» {id = INT-04, variante = cdm, distancia = sintáctica + semántica-en-datos}, «tactic» {id = MOD-04, variante = pub-sub} | Una copia del contrato en cada conector (SUP-03) | — | no aplica | funcional |
 | DG-SEQ-002 | secuencia | ¿Qué pasa con un registro que trae un monto en otra unidad o un código no reconocido? | ASR-I02 | ADR-002, ADR-003 | EL-04, EL-07, EL-08, EL-09 | CN-07, CN-08, CN-09 | — | Lo rechazado espera revisión (R-002b) | ≤ 80 h-h por empresa · ≥ 99 % interpretado | sí — no cumple: cuarentena con causa y campo | funcional |
-| DG-CMP-004 | componentes | ¿Hasta dónde llega el cambio de códigos de una IPS en su propio sistema? | ASR-M02 | ADR-001, ADR-003 | EL-01, EL-03, EL-05, EL-08, EL-10, EL-17 | CN-01, CN-03, CN-08, CN-10, CN-22, CN-20 | «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo} | El conector sigue las versiones de su socio | ≤ 16 h-h · componentes afectados = 1 | no aplica | funcional |
-| DG-SEQ-003 | secuencia | ¿Qué pasa cuando una IPS cambia sus códigos antes de que la holding ajuste nada? | ASR-M02, ASR-I02 | ADR-001, ADR-002 | EL-01, EL-03, EL-09, EL-08 | CN-01, CN-08, CN-09 | — | Registros en cuarentena mientras se ajusta el conector (R-002b) | ≤ 16 h-h desde el anuncio | sí — código sin equivalencia: cuarentena, ajuste y reproceso | funcional |
+| DG-CMP-004 | componentes | ¿Hasta dónde llega el cambio de códigos de una IPS en su propio sistema? | ASR-M02 | ADR-001, ADR-005, ADR-003 | EL-01, EL-03, EL-05, EL-08, EL-10, EL-17 | CN-01, CN-03, CN-08, CN-10, CN-22, CN-20 | «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo} | El conector sigue las versiones de su socio | ≤ 16 h-h · componentes afectados = 1 | no aplica | funcional |
+| DG-SEQ-003 | secuencia | ¿Qué pasa cuando una IPS cambia sus códigos antes de que la holding ajuste nada? | ASR-M02, ASR-I02 | ADR-001, ADR-005, ADR-002 | EL-01, EL-03, EL-09, EL-08 | CN-01, CN-08, CN-09 | — | Registros en cuarentena mientras se ajusta el conector (R-002b) | ≤ 16 h-h desde el anuncio | sí — código sin equivalencia: cuarentena, ajuste y reproceso | funcional |
 | DG-CMP-005 | componentes | ¿Quién publica y quién reacciona, sin que nadie dirija el flujo? | ASR-I01, ASR-M02 | ADR-003 | EL-03, EL-04, EL-08, EL-10, EL-17, EL-18 | CN-08, CN-10, CN-22, CN-20, CN-21 | «tactic» {id = MOD-04, variante = pub-sub}, «tactic» {id = INT-09} | Consistencia eventual; flujo que no vive en un solo lugar (TO-003a) | el conector nuevo publica en temas que ya existen | no aplica | funcional |
 | DG-CMP-006 | componentes | ¿Dónde vive cada algoritmo, y cómo se elige cuál opera para una empresa? | ASR-M01 | ADR-004 | EL-08, EL-10, EL-11, EL-12, EL-13, EL-14, EL-21, EL-15 | CN-10, CN-13, CN-14, CN-12, CN-17, CN-18, CN-15 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución}, «tactic» {id = MOD-03, variante = api-estable-versionada, binding = desarrollo} | Mecanismo de recarga en caliente y su validación (TO-004a) | ≤ 24 h-h · activar o revertir es un dato | no aplica | funcional |
 | DG-CST-003 | componentes | ¿Cómo toma el motor la versión activa de cada empresa sin reiniciarse? | ASR-M01 | ADR-003, ADR-004 | EL-10, EL-29, EL-11 | CN-10, CN-11, CN-12, CN-13 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución} | Una copia en memoria que el configurador mantiene al día | una versión por evento | no aplica | funcional |
 | DG-SEQ-004 | secuencia | ¿Cómo se activa el algoritmo nuevo para una IPS y cómo se vuelve al anterior sin desplegar? | ASR-M01 | ADR-004 | EL-21, EL-13, EL-29, EL-10, EL-12 | CN-17, CN-12, CN-11, CN-13 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución} | Configuración inválida (R-004a) | ≤ 24 h-h · revertir con 0 despliegues | sí — configuración inválida: se conserva la anterior | funcional |
-| DG-CON-001 | objetos-activos | ¿Qué corre en paralelo entre conectores, bus y consumidores, y qué se protege al escribir? | ASR-I01, ASR-M02 | ADR-003 | EL-03, EL-04, EL-08, EL-09, EL-10, EL-15, EL-17, EL-18 | CN-08, CN-09, CN-10, CN-15, CN-22, CN-20, CN-21 | «tactic» {id = MOD-04, variante = pub-sub}, «tactic» {id = INT-09} | Consistencia eventual; orden solo por empresa y dominio (S-003a) | 8 conectores · consumidores 1..* | no aplica | concurrencia |
+| DG-CON-001 | objetos-activos | ¿Qué corre en paralelo entre conectores, bus y consumidores, y qué se protege al escribir? | ASR-I01, ASR-M02 | ADR-003, ADR-005 | EL-03, EL-04, EL-08, EL-09, EL-10, EL-15, EL-17, EL-18 | CN-08, CN-09, CN-10, CN-15, CN-22, CN-20, CN-21 | «tactic» {id = MOD-04, variante = pub-sub}, «tactic» {id = INT-09} | Consistencia eventual; orden solo por empresa y dominio (S-003a) | 4 conectores del grupo y 1 por compañía adquirida · consumidores 1..* | no aplica | concurrencia |
 | DG-CON-002 | objetos-activos | ¿Qué pasa cuando el reproceso de la cuarentena compite con los registros nuevos? | ASR-I02, ASR-M02 | ADR-002, ADR-003 | EL-03, EL-09, EL-08, EL-10, EL-15 | CN-08, CN-09, CN-10, CN-15 | «tactic» {id = INT-04, variante = cdm, distancia = sintáctica + semántica-en-datos} | Escritura idempotente por identificador (NR-003a) | el doble no duplica el registro | no aplica | concurrencia |
 | DG-CON-003 | objetos-activos | ¿Qué se sincroniza cuando cambia la versión activa a mitad de un lote? | ASR-M01 | ADR-004 | EL-21, EL-13, EL-29, EL-10, EL-08, EL-14, EL-15 | CN-17, CN-12, CN-18, CN-10, CN-11, CN-15 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución} | Lectura atómica de la versión activa en cada evento | una versión por evento | no aplica | concurrencia |
 | DG-CLS-001 | clases | ¿Qué dominios forman la vista unificada, y cómo se reconoce un cliente entre empresas? | ASR-I01, ASR-I02 | ADR-002 | EL-15, EL-16 | — | — | — | — | no aplica | información |
 | DG-CLS-002 | clases | ¿Qué declara el contrato canónico de cada campo, y cómo se ve un registro rechazado? | ASR-I02, ASR-I01 | ADR-002 | EL-06, EL-07, EL-09 | CN-05, CN-09 | «tactic» {id = INT-04, variante = cdm, distancia = sintáctica + semántica-en-datos} | Negociar y versionar el contrato | nada entra con otro significado | no aplica | información |
-| DG-CLS-003 | clases | ¿Qué guarda el mapeo de un conector, y qué cambia cuando el socio cambia su interfaz? | ASR-I01, ASR-M02 | ADR-001 | EL-03, EL-04, EL-05 | CN-03, CN-04 | «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento}, «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo} | Un mapeo por fuente que mantener | solo cambia el mapeo del socio | no aplica | información |
+| DG-CLS-003 | clases | ¿Qué guarda el mapeo de un conector, y qué cambia cuando el socio cambia su interfaz? | ASR-I01, ASR-M02 | ADR-001, ADR-005 | EL-03, EL-04, EL-05 | CN-03, CN-04 | «tactic» {id = INT-01, variante = interfaz-común, distancia = sintáctica + semántica-en-datos + semántica-en-comportamiento}, «tactic» {id = MOD-03, variante = ocultar-interfaces-que-no-aplican, binding = desarrollo} | Un mapeo por fuente que mantener | solo cambia el mapeo del socio | no aplica | información |
 | DG-CLS-004 | clases | ¿Qué datos eligen la versión activa de una regla para una empresa, y qué queda en la bitácora? | ASR-M01 | ADR-004 | EL-11, EL-12, EL-13, EL-14 | CN-14, CN-18 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución}, «tactic» {id = MOD-03, variante = api-estable-versionada, binding = desarrollo} | Una versión más que retirar por cada cambio | revertir sin desarrollo | no aplica | información |
 | DG-STM-001 | estados | ¿Por qué estados pasa un registro desde que sale de su empresa hasta que queda consolidado o rechazado? | ASR-I02 | ADR-002 | EL-07, EL-09, EL-10, EL-15 | CN-08, CN-09, CN-15 | «tactic» {id = INT-04, variante = cdm, distancia = sintáctica + semántica-en-datos} | Lo rechazado espera revisión (R-002b) | nada entra con otro significado | sí — no interpretable: rechazado con diagnóstico | información |
 | DG-STM-002 | estados | ¿Por qué estados pasa un evento en su suscripción, y qué pasa si se entrega dos veces? | ASR-I01, ASR-M02 | ADR-003 | EL-08, EL-10 | CN-10 | «tactic» {id = MOD-04, variante = pub-sub} | Entrega al menos una vez: el receptor escribe de forma idempotente | T_lock = TBD · maxEntregas = TBD | sí — sin confirmar: se reentrega; pasado el máximo, se desvía | información |
 | DG-STM-003 | estados | ¿Por qué estados pasa la activación de una versión de regla para una empresa? | ASR-M01 | ADR-004 | EL-13, EL-29, EL-14 | CN-12, CN-18 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución} | Configuración inválida (R-004a) | activar y revertir con 0 despliegues | sí — configuración inválida: sigue la anterior | información |
-| DG-DEP-001 | despliegue | ¿Dónde corre cada pieza de la plataforma? | ASR-I01, ASR-M01, ASR-M02 | ADR-001, ADR-003, ADR-004 | EL-24, EL-25, EL-26, EL-27, EL-28, EL-01, EL-02 | CN-27, CN-28, CN-29, CN-30, CN-31 | «tactic» {id = MOD-04, variante = pub-sub} | Una unidad de despliegue por fuente (TO-001a); el broker es una pieza central (R-003a) | — | no aplica | despliegue |
-| DG-DEP-002 | despliegue | ¿Qué se despliega al integrar la compañía de turismo, y qué sigue intacto? | ASR-I01 | ADR-001, ADR-003 | EL-24, EL-25, EL-26, EL-27, EL-02, EL-03, EL-04, EL-08 | CN-27, CN-28 | «tactic» {id = MOD-04, variante = pub-sub} | Una unidad de despliegue más por fuente (TO-001a) | 1 contenedor nuevo · 0 redesplegados | no aplica | despliegue |
+| DG-DEP-001 | despliegue | ¿Dónde corre cada pieza de la plataforma? | ASR-I01, ASR-M01, ASR-M02 | ADR-001, ADR-005, ADR-003, ADR-004 | EL-24, EL-25, EL-26, EL-27, EL-28, EL-01, EL-02 | CN-27, CN-28, CN-29, CN-30, CN-31 | «tactic» {id = MOD-04, variante = pub-sub} | Una unidad de despliegue por fuente (TO-001a); el broker es una pieza central (R-003a) | — | no aplica | despliegue |
+| DG-DEP-002 | despliegue | ¿Qué se despliega al integrar la compañía de turismo, y qué sigue intacto? | ASR-I01 | ADR-001, ADR-005, ADR-003 | EL-24, EL-25, EL-26, EL-27, EL-02, EL-03, EL-04, EL-08 | CN-27, CN-28 | «tactic» {id = MOD-04, variante = pub-sub} | Una unidad de despliegue más por fuente (TO-001a) | 1 contenedor nuevo · 0 redesplegados | no aplica | despliegue |
 | DG-DEP-003 | despliegue | ¿Qué se despliega al publicar un algoritmo nuevo, y qué cambia al activarlo o revertirlo? | ASR-M01 | ADR-004 | EL-26, EL-27, EL-10, EL-12, EL-13, EL-14, EL-23 | CN-29 | «tactic» {id = MOD-09, variante = ejecución, binding = ejecución} | Mecanismo de carga de artefactos y recarga en caliente | activar y revertir con 0 despliegues | no aplica | despliegue |
 
 ## 7. Abierto
 
 **Preguntas:**
+- `[PREGUNTA → equipo]` ADR-005 está en Propuesta y reemplaza a ADR-001, que queda como «Reemplazada por ADR-005». Si el equipo rechaza ADR-005, ADR-001 vuelve a Aceptada y los diagramas vuelven a ocho conectores.
+- `[PREGUNTA → direcciones de tecnología de las IPS]` ¿Qué HIS y qué ERP usa cada clínica y cada hospital? Con ese dato se confirma o se cae SUP-05.
 - La ficha de ASR-I02 mide solo ≤ 80 h-h por empresa, mientras el resumen de la página de escenarios y S-9 fijan además ≥ 99 % interpretado. Este registro usa las dos cifras; hay que confirmar si el porcentaje es parte de la medida.
 - `[PREGUNTA → dirección financiera]` ¿Quién firma el lote de referencia contra el que se cuenta lo interpretado, y quién revisa la cuarentena?
 - `[PREGUNTA → equipo del curso]` ¿Quiénes integran el panel de expertos que valida ASR-I01 y ASR-M01?
@@ -484,16 +568,19 @@ Cada vista tiene su página: [componentes](vista-componentes.md), [concurrencia]
 - SUP-02 — el bus y el registro de contratos son productos existentes.
 - SUP-03 — cada conector conserva en caché la versión vigente del contrato.
 - SUP-04 — el motor necesita el orden dentro de una empresa y un dominio, no entre empresas.
+- SUP-05 — las cinco IPS facturan con la misma semántica aunque sus sistemas sean distintos; sostiene ADR-005 y no se ha confirmado.
 
 **Riesgos abiertos:**
 - R-001a — si las reservas no caben en los siete dominios (S-3), integrar turismo cambia el modelo canónico.
 - R-002a — si el registro de contratos no responde, los conectores no pueden validar; se mitiga con SUP-03.
 - R-002b — la cuarentena necesita un dueño.
 - R-003a — el bus es una pieza central; su caída detiene la consolidación.
+- R-005a — redesplegar el conector de las IPS detiene la lectura de las cinco mientras dura.
+- R-005b — si las IPS difieren en más que campos y códigos, conviene volver a un conector por empresa.
 
 **Fuera de alcance:**
 - Desempeño: cuánto tarda el dato en llegar a la vista unificada, incluido lo que suman el bus y la validación en el borde.
 - Disponibilidad: la caída del bus o del registro de contratos, y la falla de la recarga en caliente.
 - La secuencia del protocolo temporal con cada socio no se planifica: la distancia temporal quedó descartada en los escenarios, porque no se conoce hasta la debida diligencia.
 
-**Lint:** Contrato: el registro declara adr-log/v2; validado con lint_adrs (adr-log/v2, fichas tactica/v1, plugin arquitectura 1.10.0). Resultado: 0 errores, 5 avisos W13, justificados: EL-16 (datos maestros), EL-19 (API de consultas), EL-20 (portal), EL-22 (directivos) y EL-28 (nodo de analítica) no se dibujan sueltos porque ningún ASR de este reto pasa por ellos; en el panorama quedan dentro de los subsistemas EL-31 y EL-32.
+**Lint:** Contrato: el registro declara adr-log/v2; validado con lint_adrs (adr-log/v2, fichas tactica/v1, plugin arquitectura 1.15.1). Resultado: 0 errores, 3 avisos W13, justificados: EL-19 (API de consultas), EL-20 (portal) y EL-22 (directivos) no tienen fila propia en §6 porque ningún ASR de este reto pasa por ellos; aparecen en la arquitectura general (DG-CMP-001).
