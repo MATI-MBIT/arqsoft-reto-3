@@ -31,7 +31,7 @@ un cambio se hace ahí y se reexporta el PNG.
 | Símbolo | Qué significa |
 |---|---|
 | Caja con doble barra lateral | Un objeto activo: un proceso («process») o un hilo («thread») con su propio flujo de control |
-| `[8]`, `[1..*]` | Cuántas instancias corren a la vez |
+| `[4]`, `[1..*]` | Cuántas instancias corren a la vez |
 | Caja con «queue» | Un tópico o una cola del bus de eventos canónicos |
 | Nombre subrayado | Una instancia, en la forma `nombre : Tipo` |
 | `{guarded}` | Un recurso compartido cuyo acceso se protege |
@@ -47,7 +47,7 @@ un cambio se hace ahí y se reexporta el PNG.
 
 [Abrir DG-CON-001 en draw.io](https://app.diagrams.net/?page-id=dg-con-001#Uhttps%3A%2F%2Fmati-mbit.github.io%2Farqsoft-reto-3%2Fmodelos%2Fdrawio%2FReto3-Vista-Concurrencia.drawio)
 
-**Qué muestra.** Ocho procesos de conector, uno por empresa, más el conector empresa N,
+**Qué muestra.** Cuatro procesos de conector, uno por cada conector del grupo (EPS, IPS, Prepagada y Seguros), más el conector empresa N,
 publican en los tópicos canónicos sin coordinarse entre sí. El motor lo consume con
 uno o más hilos, cada uno sobre una partición por empresa y dominio, y publica el
 `RegistroUnificado`. La consolidación financiera y la venta cruzada lo consumen

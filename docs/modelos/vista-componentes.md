@@ -78,12 +78,12 @@ contención del cambio de ASR-M02.
 **Qué no muestra.** Cómo funciona cada pieza por dentro; lo muestran los
 acercamientos siguientes, uno por táctica.
 
-**Excepción declarada.** Este diagrama no cumple el presupuesto visual de la
-skill de diagramas, y es a propósito: reproduce entero el diagrama general del
-equipo. Tiene 44 elementos donde la skill bloquea por encima de 20, cinco notas
-largas donde admite tres de 160 caracteres, el bus dibujado como componente con
-siete conexiones a `IPublicarEvento` y la troncal compartida de los conectores
-del original. Los demás diagramas sí cumplen.
+**Presupuesto.** Es la vista general, con el presupuesto propio de esa página:
+reproduce entero el diagrama general del equipo, con sus 44 elementos (la skill
+avisa por encima de 40 y bloquea por encima de 48), sus cinco notas con título y
+el bus como componente «bus de mensajes» con sus tópicos en el rótulo. Cada caja
+lleva su nombre y, debajo, la descripción del original. Los demás diagramas
+cumplen el presupuesto de 12 elementos.
 
 ## Integrar la empresa N, una compañía de turismo (INT-01 · ASR-I01)
 
@@ -96,8 +96,9 @@ del original. Los demás diagramas sí cumplen.
 **Qué muestra.** El conector empresa N entra como un componente nuevo. Requiere
 el API de reservas de la compañía de turismo, realiza el mismo puerto común que
 los conectores de las empresas del grupo y publica en los eventos canónicos que
-ya existen. Nada de lo
-existente cambia de forma.
+ya existen. Como en la arquitectura general, se da de alta en el registro de
+conectores y contratos por `IRegistroContratos`: el alta es un dato nuevo en el
+registro, no un cambio de su forma. Nada de lo existente cambia de forma.
 
 **Decisión que refleja.** [ADR-001](adrs.md), un conector por fuente tras un
 puerto común (INT-01, variante interfaz común), que cierra las distancias
