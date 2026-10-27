@@ -146,7 +146,7 @@ S: la decisión satisface el escenario. C: contribuye.
 
 | Puerta | Resultado |
 |---|---|
-| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`, plugin `arquitectura` 1.15.1, modo draw.io) | 0 errores en los 26 diagramas de las cuatro vistas |
+| Lint de los diagramas (fichas `tactica/v1`, registro `adr-log/v2`, plugin `arquitectura` 1.17.0, modo draw.io) | 0 errores en los 26 diagramas de las cuatro vistas |
 | Eclosión N0 → N1 → N2 (AP-20 a AP-23) y tácticas (TAC), por archivo | 0 errores; los avisos van abajo |
 | Congruencia del layout (B6') | En 0 en las 26 páginas, DG-CMP-001 incluida |
 | Render en draw.io (`drawio -x`), mirado página por página | Las 26 páginas se leen; la iconografía es la UML |
